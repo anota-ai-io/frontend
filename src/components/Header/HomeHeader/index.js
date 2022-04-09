@@ -359,27 +359,20 @@ export default function HomeHeader() {
             </div>
             <div className="py-6 px-5 space-y-6">
               <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a
-                  href="#"
-                  className="text-base font-medium text-gray-900 hover:text-gray-700"
-                >
-                  Menu Menu Menu
-                </a>
-
-                <a
-                  href="#"
-                  className="text-base font-medium text-gray-900 hover:text-gray-700"
-                >
-                  Menu menu Menu
-                </a>
+                <p className="text-base font-medium text-gray-900 hover:text-gray-700">
+                  Menu
+                </p>
+                <p className="text-base font-medium text-gray-900 hover:text-gray-700">
+                  Menu
+                </p>
               </div>
               <div>
-                <a
-                  href="#"
+                <Link
+                  to="/register"
                   className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                 >
-                  <Link to="/register">Cadastrar</Link>
-                </a>
+                  Cadastrar
+                </Link>
                 <p className="mt-6 text-center text-base font-medium text-gray-500">
                   Já possui uma conta?{" "}
                   <Link
