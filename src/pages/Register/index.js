@@ -9,10 +9,6 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  function validate() {}
-
-  function register() {}
-
   return (
     <>
       <RegisterHeader />
@@ -97,12 +93,12 @@ export default function Register() {
               >
                 Cadastrar
               </button>
-              <a
+              <Link
+                to="/login"
                 class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                href="#"
               >
-                <Link to="/login">Ir para o Login</Link>
-              </a>
+                Ir para o Login
+              </Link>
             </div>
           </form>
           <p class="text-center text-gray-500 text-xs">&copy;2022 Anota Aí.</p>

@@ -107,14 +107,16 @@ export default function HomeHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1">
-            <a href="#">
+            <Link to="/">
               <span className="sr-only">Workflow</span>
               <img className="h-8 w-auto sm:h-10" src={CompanyLogo} alt="" />
-            </a>
+            </Link>
             <div className="flex justify-between items-center pl-6 md:justify-start md:space-x-10">
-              <h1 className="text-base font-medium text-gray-500 hover:text-gray-900">
-                Anota Aí
-              </h1>
+              <Link to="/">
+                <h1 className="text-base font-medium text-gray-500 hover:text-gray-900">
+                  Anota Aí
+                </h1>
+              </Link>
             </div>
           </div>
 
@@ -209,6 +211,7 @@ export default function HomeHeader() {
             <a
               href="https://github.com/anota-ai-io"
               target="_blank"
+              rel="noreferrer"
               className="text-base font-medium text-gray-500 hover:text-gray-900"
             >
               Documentação
@@ -271,7 +274,7 @@ export default function HomeHeader() {
                             <h3 className="text-sm tracking-wide font-medium text-gray-500 uppercase">
                               Recent Posts
                             </h3>
-                            <ul role="list" className="mt-4 space-y-4">
+                            <ul className="mt-4 space-y-4">
                               {recentPosts.map((post) => (
                                 <li
                                   key={post.id}
@@ -306,18 +309,18 @@ export default function HomeHeader() {
             </Popover>
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <a
-              href=""
+            <Link
+              to="/login"
               className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900"
             >
-              <Link to="/login">Entrar</Link>
-            </a>
-            <a
-              href="#"
+              Entrar
+            </Link>
+            <Link
+              to="/register"
               className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
             >
-              <Link to="/register">Cadastrar</Link>
-            </a>
+              Cadastrar
+            </Link>
           </div>
         </div>
       </div>
@@ -342,7 +345,7 @@ export default function HomeHeader() {
                 <div>
                   <img
                     className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                    src={CompanyLogo}
                     alt="Workflow"
                   />
                 </div>
@@ -353,25 +356,6 @@ export default function HomeHeader() {
                   </Popover.Button>
                 </div>
               </div>
-              <div className="mt-6">
-                <nav className="grid gap-y-8">
-                  {solutions.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                    >
-                      <item.icon
-                        className="flex-shrink-0 h-6 w-6 text-indigo-600"
-                        aria-hidden="true"
-                      />
-                      <span className="ml-3 text-base font-medium text-gray-900">
-                        {item.name}
-                      </span>
-                    </a>
-                  ))}
-                </nav>
-              </div>
             </div>
             <div className="py-6 px-5 space-y-6">
               <div className="grid grid-cols-2 gap-y-4 gap-x-8">
@@ -379,37 +363,31 @@ export default function HomeHeader() {
                   href="#"
                   className="text-base font-medium text-gray-900 hover:text-gray-700"
                 >
-                  Pricing ... mobile?
+                  Menu Menu Menu
                 </a>
 
                 <a
                   href="#"
                   className="text-base font-medium text-gray-900 hover:text-gray-700"
                 >
-                  Docs
+                  Menu menu Menu
                 </a>
-                {resources.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    {item.name}
-                  </a>
-                ))}
               </div>
               <div>
                 <a
                   href="#"
                   className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                 >
-                  Sign up
+                  <Link to="/register">Cadastrar</Link>
                 </a>
                 <p className="mt-6 text-center text-base font-medium text-gray-500">
-                  Existing customer?{" "}
-                  <a href="#" className="text-indigo-600 hover:text-indigo-500">
-                    Sign in
-                  </a>
+                  Já possui uma conta?{" "}
+                  <Link
+                    to="/login"
+                    className="text-indigo-600 hover:text-indigo-500"
+                  >
+                    Entrar
+                  </Link>
                 </p>
               </div>
             </div>

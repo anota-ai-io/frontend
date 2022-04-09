@@ -54,18 +54,18 @@ export default function Login() {
                 Entrar
               </button>
               <div class="grid">
-                <a
+                <Link
+                  to="/register"
                   class="mb-2 inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                  href="#"
                 >
-                  <Link to="/register">Criar nova conta</Link>
-                </a>
-                <a
+                  Criar nova conta
+                </Link>
+                <Link
+                  to="/register"
                   class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                  href="#"
                 >
-                  <Link to="/register">Esqueceu sua senha?</Link>
-                </a>
+                  Esqueceu sua senha?
+                </Link>
               </div>
             </div>
           </form>
