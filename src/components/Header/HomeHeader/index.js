@@ -290,16 +290,6 @@ export default function HomeHeader() {
                               ))}
                             </ul>
                           </div>
-                          <div className="mt-5 text-sm">
-                            <a
-                              href="#"
-                              className="font-medium text-indigo-600 hover:text-indigo-500"
-                            >
-                              {" "}
-                              View all posts{" "}
-                              <span aria-hidden="true">&rarr;</span>
-                            </a>
-                          </div>
                         </div>
                       </div>
                     </Popover.Panel>
