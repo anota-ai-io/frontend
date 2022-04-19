@@ -1,57 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { parseCookies } from "nookies";
+
+import jwt_decode from "jwt-decode";
 
 import AuthContext from "../../contexts/auth";
 
-export default function AuthRoute({
-  requireAuth,
-  component: Component,
-  redirect,
-  ...rest
-}) {
-  const [authChecked, setAuthChecked] = useState(false);
-  const [authStatus, setAuthStatus] = useState(false);
-
+export default function ProtectedRoute({ component: Component, redirect }) {
   const [user, setUser] = useState(null);
 
-  // Verifica se existe um usuário autenticado
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checked, setChecked] = useState(false);
 
-  // Escreve rfunção para interpretar o Token JWT
+  useEffect(() => {
+    const cookies = parseCookies();
 
-  // useEffect(() => {
-  //   Auth.currentAuthenticatedUser()
-  //     .then((user) => {
-  //       // console.log("Usuario autenticado:");
-  //       // console.log(user);
-  //       setUser(user);
-  //       setAuthStatus(true);
-  //       setAuthChecked(true);
-  //     })
-  //     .catch((err) => {
-  //       setAuthStatus(false);
-  //       setAuthChecked(true);
-  //     });
-  // }, []);
+    const accessToken = cookies["docs.token"];
+
+    try {
+      const decoded = jwt_decode(accessToken);
+      setUser(decoded);
+      setAuthenticated(true);
+      setChecked(true);
+    } catch (error) {
+      setChecked(true);
+      setAuthenticated(false);
+      console.log("Token Inválido");
+    }
+  }, []);
 
   return (
     <>
-      {authChecked && (
-        <AuthContext.Provider value={user}>
-          <Route
-            {...rest}
-            render={(props) =>
-              authStatus === requireAuth ? (
-                <Component {...props} />
-              ) : (
-                <Redirect
-                  exact
-                  to={{ pathname: redirect, state: { from: props.location } }}
-                />
-              )
-            }
-          />
-        </AuthContext.Provider>
-      )}
+      {checked &&
+        (authenticated ? (
+          <AuthContext.Provider value={user}>
+            <Component />
+          </AuthContext.Provider>
+        ) : (
+          <Navigate to={redirect} />
+        ))}
     </>
   );
 }

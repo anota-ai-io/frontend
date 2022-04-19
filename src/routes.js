@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { BrowserRouter, Route, Routes as Switch } from "react-router-dom";
 
+const ProtectedRoute = React.lazy(() => import("./components/ProtectedRoute"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
 const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Login"));
@@ -12,10 +13,18 @@ export default function Routes() {
     <BrowserRouter>
       <Suspense fallback={<></>}>
         <Switch>
+          {/* Rotas públicas */}
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/feed" element={<Feed />} />
+
+          {/* Rotas Privadas */}
+          <Route
+            path="/feed"
+            element={<ProtectedRoute component={Feed} redirect="/login" />}
+          />
+
+          {/* Página de Not Found - 404 */}
           <Route path="/*" element={<NotFound />} />
         </Switch>
       </Suspense>
