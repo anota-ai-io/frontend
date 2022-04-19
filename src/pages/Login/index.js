@@ -36,7 +36,6 @@ export default function Login() {
 
   return (
     <>
-
       <div className="grid bg-blue-900 h-screen justify-items-center content-center">
         <div className="w-full max-w-sm mt-12">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={signIn}>

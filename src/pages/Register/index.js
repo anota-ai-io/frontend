@@ -1,18 +1,44 @@
 import { React, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  async function register(event) {
+    event.preventDefault();
+    if (password === confirmPassword) {
+      await fetch("https://anotaifsp.herokuapp.com/api/user", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          "name": name,
+          "email": email,
+          "password": password
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          navigate("/login");
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    } else {
+      alert("A senha de confirmação está diferente da senha.")
+    }
+
+  }
+
   return (
     <>
       <div class="grid h-screen bg-blue-900 justify-items-center content-center">
         <div class="w-full max-w-sm mt-12">
-          <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={register}>
             <div class="my-4">
               <h3 className="text-base font-medium text-gray-500 hover:text-gray-900">
                 Realizar Cadastro
@@ -87,7 +113,7 @@ export default function Register() {
             <div class="flex items-center justify-between">
               <button
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
+                type="submit"
               >
                 Cadastrar
               </button>

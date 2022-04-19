@@ -24,6 +24,12 @@ export default function Home() {
               >
                 Criar Usuário
               </Link>
+              <Link
+                to="/login"
+                className="mt-6 ml-1 whitespace-nowrap inline-flex items-center justify-center px-10 py-2 border border-transparent rounded-full shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+              >
+                Já tenho uma conta
+              </Link>
             <button className=""></button>
           </div>
           <div className="overflow-hidden mt-16 md:mt-0">
