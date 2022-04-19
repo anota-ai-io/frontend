@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 
 import AuthContext from "../../contexts/auth";
 
+// Rota Protegida
 export default function ProtectedRoute({ component: Component, redirect }) {
   const [user, setUser] = useState(null);
 
