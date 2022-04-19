@@ -19,10 +19,14 @@ export default function ProtectedRoute({ component: Component, redirect }) {
     const accessToken = cookies["docs.token"];
 
     try {
-      const decoded = jwt_decode(accessToken);
-      setUser(decoded);
-      setAuthenticated(true);
-      setChecked(true);
+      if (accessToken !== '') {
+        const decoded = jwt_decode(accessToken);
+        setUser(decoded);
+        setAuthenticated(true);
+        setChecked(true);
+      } else {
+        setAuthenticated(false);
+      }
     } catch (error) {
       setChecked(true);
       setAuthenticated(false);
