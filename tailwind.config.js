@@ -5,6 +5,9 @@ module.exports = {
       fontFamily: {
         sans: ["Inter var"],
       },
+      backgroundImage: {
+        'nuvem-formas': "url('./assets/home_office.png')",
+      }
     },
   },
   plugins: [],

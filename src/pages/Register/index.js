@@ -1,7 +1,6 @@
 import { React, useState } from "react";
 import { Link } from "react-router-dom";
 
-import RegisterHeader from "../../components/Header/RegisterHeader";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -11,8 +10,7 @@ export default function Register() {
 
   return (
     <>
-      <RegisterHeader />
-      <div class="grid justify-items-center content-center">
+      <div class="grid h-screen bg-blue-900 justify-items-center content-center">
         <div class="w-full max-w-sm mt-12">
           <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="my-4">
