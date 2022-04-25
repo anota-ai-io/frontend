@@ -7,6 +7,7 @@ const Home = React.lazy(() => import("./pages/Home"));
 const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
 const Feed = React.lazy(() => import("./pages/Feed"));
+const Perfil = React.lazy(() => import("./pages/Perfil"));
 
 export default function Routes() {
   return (
@@ -22,6 +23,11 @@ export default function Routes() {
           <Route
             path="/feed"
             element={<ProtectedRoute component={Feed} redirect="/login" />}
+          />
+
+          <Route
+            path="/perfil"
+            element={<ProtectedRoute component={Perfil} redirect="/login" />}
           />
 
           {/* Página de Not Found - 404 */}
