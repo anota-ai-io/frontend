@@ -5,6 +5,8 @@ import React from "react";
 import NuvemFormas from "../../assets/nuvem-formas.svg";
 import Logo from "../../assets/logo.png";
 import HomeOffice from "../../assets/home_office.png";
+import PreviewFeedPlataforma from "../../assets/preview_feed_plataforma.png";
+
 import { Link } from "react-router-dom";
 
 
@@ -14,6 +16,7 @@ export default function Home() {
     <>
       <div className="h-screen w-screen">
         <img src={NuvemFormas} className="w-screen md:h-1/4" />
+        
         <div className="h-1/2 md:flex justify-center p-11">
           <div className="md:w-1/3">
             <img src={Logo} />
@@ -37,6 +40,13 @@ export default function Home() {
           </div>
         </div>
         <img src={NuvemFormas} className="w-screen fixed bottom-0 h-20 md:absolute md:h-1/4" />
+
+        <div className="mt-64 text-center">
+          <h1>Públique e interaja nos mais diversos grupos, Anota Aí!</h1>
+          <div className="md:flex justify-center p-11">
+            <img src={PreviewFeedPlataforma} className="h-full"  />
+          </div>
+        </div>
       </div>
     </>
   );
