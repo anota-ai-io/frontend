@@ -1,24 +1,21 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 
 export default function Register() {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const { register, handleSubmit, formState } = useForm();
 
-  async function register(event) {
-    event.preventDefault();
-    if (password === confirmPassword) {
+  const signUp = async data => {
+    if (data.password === data.confirmPassword) {
       await fetch("https://anotaifsp.herokuapp.com/api/user", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-          "name": name,
-          "email": email,
-          "password": password
+          "name": data.name,
+          "email": data.email,
+          "password": data.password
         })
       })
         .then(response => response.json())
@@ -38,7 +35,7 @@ export default function Register() {
     <>
       <div class="grid h-screen bg-blue-900 justify-items-center content-center">
         <div class="w-full max-w-sm mt-12">
-          <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={register}>
+          <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(signUp)}>
             <div class="my-4">
               <h3 className="text-base font-medium text-gray-500 hover:text-gray-900">
                 Realizar Cadastro
@@ -57,8 +54,7 @@ export default function Register() {
                 id="username"
                 type="text"
                 placeholder="Nome"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                {...register("name")}
               />
             </div>
             <div class="mb-4">
@@ -73,8 +69,7 @@ export default function Register() {
                 id="username"
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
               />
             </div>
             <div class="mb-4">
@@ -89,8 +84,7 @@ export default function Register() {
                 id="password"
                 type="password"
                 placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
               />
             </div>
             <div class="mb-6">
@@ -105,8 +99,7 @@ export default function Register() {
                 id="confirm-password"
                 type="password"
                 placeholder="Confirmar Senha"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                {...register("confirmPassword")}
               />
               {/* <p class="text-red-500 text-xs italic">Please choose a password.</p> */}
             </div>
@@ -115,6 +108,11 @@ export default function Register() {
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
+                {formState.isSubmitting ? (
+                  <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 mr-1 rounded-full text-gray-300" role="status">
+                    <span className="visually-hidden"></span>
+                  </div>
+                ) : null}
                 Cadastrar
               </button>
               <Link

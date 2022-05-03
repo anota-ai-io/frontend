@@ -1,28 +1,27 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import { setCookie } from 'nookies';
 
 export default function Login() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, formState } = useForm();
 
-  async function signIn(event) {
-    event.preventDefault();
+  const signIn = async data => {
     await fetch("https://anotaifsp.herokuapp.com/api/auth/login", {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
-        "email": email,
-        "password": password
+        "email": data.email,
+        "password": data.password
       })
     })
       .then(response => response.json())
-      .then(data => {
-        setCookie(undefined, 'docs.token', data.response.accessToken, {
+      .then(response => {
+        setCookie(undefined, 'docs.token', response.response.accessToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
-        setCookie(undefined, 'docs.refreshToken', data.response.refreshToken, {
+        setCookie(undefined, 'docs.refreshToken', response.response.refreshToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
 
@@ -38,7 +37,7 @@ export default function Login() {
     <>
       <div className="grid bg-blue-900 h-screen justify-items-center content-center">
         <div className="w-full max-w-sm mt-12">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={signIn}>
+          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(signIn)}>
             <div className="my-4">
               <h3 className="text-base font-medium text-gray-500 hover:text-gray-900">
                 Realizar Login
@@ -57,8 +56,7 @@ export default function Login() {
                 id="username"
                 type="email"
                 placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
               />
             </div>
             <div className="mb-6">
@@ -73,16 +71,20 @@ export default function Login() {
                 id="password"
                 type="password"
                 placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
               />
               {/* <p className="text-red-500 text-xs italic">Please choose a password.</p> */}
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-blue-500 flex items-center justify-between hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
+                {formState.isSubmitting ? (
+                  <div className="spinner-border animate-spin inline-block w-4 h-4 border-4 mr-1 rounded-full text-gray-300" role="status">
+                    <span className="visually-hidden"></span>
+                  </div>
+                ) : null}
                 Entrar
               </button>
               <div className="grid">
