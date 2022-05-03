@@ -21,7 +21,7 @@ export default function Feed() {
       <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-7">
         
         {/* Bloco esquerdo */}
-        <div className=" col-span-2 border-t-4">
+        <div className="hidden md:block col-span-2 border-t-4">
           <img src={Logo} className="pl-6 mt-2" />
 
           <nav className="flex flex-col align-center mt-2">
@@ -66,6 +66,10 @@ export default function Feed() {
         {/* Bloco do meio */}
         <div className="col-span-3 border-t-4 border-2 grid">
           
+          <div className="md:hidden row-span-1 border-b-2 p-5 mt-5">
+            Menu Hamburguer
+          </div>
+
           {/* Pesquisa e foto */}
           <div className="row-span-1 border-b-2 p-5 mt-5">
             
@@ -83,6 +87,7 @@ export default function Feed() {
               <img className="mr-5" src={Smile}></img>
               <img className="mr-5" src={Vector}></img>
             </div>
+
           </div>
 
           <div className="row-span-1"></div>
@@ -99,7 +104,7 @@ export default function Feed() {
 
 
         {/* Bloco direito */}
-        <div className="col-span-2 grid border-t-4 gap-5">
+        <div className="hidden md:grid col-span-2 border-t-4 gap-5">
 
           {/* Pesquisa */}
           <div className="row-auto flex justify-center items-center mt-2">
