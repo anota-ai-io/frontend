@@ -116,12 +116,12 @@ export default function Feed() {
           </div>
 
           <div className="row-auto flex justify-center items-start">
-            <div className="border-2 rounded-3xl w-11/12 h-64"></div>
+            <div className="border-2 rounded-3xl w-11/12 h-3/6"></div>
           </div>
 
           <div className="row-auto flex justify-center items-start text-center">
             
-            <div className="border-2 rounded-3xl w-11/12 h-64 overflow-scroll">
+            <div className="border-2 rounded-3xl w-11/12 h-64 overflow-y-scroll">
 
               <span><h2 className="mt-2">CHAT</h2></span>
 
