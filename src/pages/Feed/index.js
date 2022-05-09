@@ -155,6 +155,30 @@ export default function Feed() {
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
 
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
+                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
+                <span className="flex-1 ml-2">Fulano</span>
+                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
+              </span>
+
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
+                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
+                <span className="flex-1 ml-2">Fulano</span>
+                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
+              </span>
+
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
+                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
+                <span className="flex-1 ml-2">Fulano</span>
+                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
+              </span>
+
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
+                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
+                <span className="flex-1 ml-2">Fulano</span>
+                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
+              </span>
+
             </div>
           </div>
           
