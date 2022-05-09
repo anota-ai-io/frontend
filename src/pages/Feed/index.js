@@ -30,34 +30,48 @@ export default function Feed() {
             <div className="flex-grow-1">
               <ul className="flex flex-col justify-around pl-5">
                 <li className="mt-3">
-                  <a className="text-3xl flex flex-row" href="#">
-                    <img src={Home} className="mr-5"/>
+                  <Link
+                      to="/feed"
+                      className="text-3xl flex flex-row"
+                    >
                     INÍCIO
-                  </a>
+                  </Link>
                 </li>
                 <li className="mt-3">
-                  <a className="text-3xl flex flex-row" href="#">
-                    <img src={Globe} className="mr-5" />
-                    EXPLORAR
-                  </a>
+                    <Link
+                      to="/explore"
+                      className="text-3xl flex flex-row"
+                    >
+                      <img src={Globe} className="mr-5" />
+                      EXPLORAR
+                  </Link>
                 </li>
                 <li className="mt-3">
-                  <a className="text-3xl flex flex-row" href="#">
-                    <img src={Bell} className="mr-5" />
-                    NOTIFICAÇÕES
-                  </a>
+                    <Link
+                      to="/notifications"
+                      className="text-3xl flex flex-row"
+                    >
+                      <img src={Bell} className="mr-5" />
+                      NOTIFICAÇÕES
+                  </Link>
                 </li>
                 <li className="mt-3">
-                  <a className="text-3xl flex flex-row" href="#">
-                    <img src={Mail} className="mr-5" />
-                    MENSAGENS
-                  </a>
+                  <Link
+                      to="/messages"
+                      className="text-3xl flex flex-row"
+                    >
+                      <img src={Mail} className="mr-5" />
+                      MENSAGENS
+                  </Link>
                 </li>
                 <li className="mt-3">
-                  <a className="text-3xl flex flex-row" href="#">
+                    <Link
+                      to="/more"
+                      className="text-3xl flex flex-row"
+                    >
                     <img src={PlusSquare} className="mr-5" />
                     MAIS
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
