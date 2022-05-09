@@ -34,7 +34,8 @@ export default function Feed() {
                       to="/feed"
                       className="text-3xl flex flex-row"
                     >
-                    INÍCIO
+                      <img src={Home} className="mr-5" />
+                      INÍCIO
                   </Link>
                 </li>
                 <li className="mt-3">
