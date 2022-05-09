@@ -42,7 +42,7 @@ export default function Home() {
         <img src={NuvemFormas} className="w-screen fixed bottom-0 h-20 md:absolute md:h-1/4" />
 
         <div className="mt-64 text-center">
-          <h1>Públique e interaja nos mais diversos grupos, Anota Aí!</h1>
+          <h1 className="text-2xl mt-32">Públique e interaja nos mais diversos grupos, Anota Aí!</h1>
           <div className="md:flex justify-center p-11">
             <img src={PreviewFeedPlataforma} className="h-full"  />
           </div>
