@@ -26,7 +26,7 @@ export default function Feed() {
         <div className="hidden md:block col-span-2 border-t-4">
           <img src={Logo} className="pl-6 mt-2" />
 
-          <nav className="flex flex-col align-center mt-2">
+          <nav className="flex flex-col align-center justify-between mt-2">
             <div className="flex-grow-1">
               <ul className="flex flex-col justify-around pl-5">
                 <li className="mt-3">
