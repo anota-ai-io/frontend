@@ -15,6 +15,8 @@ import Smile from '../../assets/smile.svg'
 import Vector from '../../assets/Vector.svg'
 import Menu from '../../assets/menu.svg'
 
+import { Link, useNavigate } from "react-router-dom";
+
 
 export default function Feed() {
   return (
@@ -59,6 +61,18 @@ export default function Feed() {
                 </li>
               </ul>
             </div>
+
+
+            <div className="flex-grow-1">
+                <Link
+                      to="/perfil"
+                      className="flex flex-col md:flex-row items-center justify-start"
+                    >
+                  <div className="border-2 rounded-full md:ml-10 md:mr-5"><img src={User1} className="p-6"></img></div>
+                  <span>Fulano</span>
+                </Link>
+            </div>
+
           </nav>
 
         </div>
@@ -111,31 +125,31 @@ export default function Feed() {
 
               <span><h2 className="mt-2">CHAT</h2></span>
 
-              <span className="border-2 rounded-full flex p-2 m-2 items-center">
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
 
-              <span className="border-2 rounded-full flex p-2 m-2 items-center">
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
 
-              <span className="border-2 rounded-full flex p-2 m-2 items-center">
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
 
-              <span className="border-2 rounded-full flex p-2 m-2 items-center">
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
 
-              <span className="border-2 rounded-full flex p-2 m-2 items-center">
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
