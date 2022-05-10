@@ -86,14 +86,14 @@ export default function Feed() {
           </div>
 
           <div className="row-span-1 flex flex-row">
-                  <Link
-                        to="/perfil"
-                        className="flex flex-col items-start align-bottom p-6"
-                      >
-                    <h2 className="font-extrabold text-2xl">Fulano</h2>
-                    <h3 className="text-lg">@Fulano</h3>
-                  </Link>
-              </div>
+              <Link
+                    to="/perfil"
+                    className="flex flex-col items-start align-bottom p-6"
+                  >
+                <h2 className="font-extrabold text-2xl">Fulano</h2>
+                <h3 className="text-lg">@Fulano</h3>
+              </Link>
+          </div>
 
         </div>
 
