@@ -8,7 +8,7 @@ import Globe from '../../assets/globe.svg'
 import Home from '../../assets/home.svg'
 import Mail from '../../assets/mail.svg'
 import PlusSquare from '../../assets/plus-square.svg'
-import User from '../../assets/user.svg'
+
 
 import Image from '../../assets/image.svg'
 import Smile from '../../assets/smile.svg'
@@ -23,72 +23,77 @@ export default function Feed() {
     <>
       <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-7">
         
-        <div className="hidden md:block col-span-2 border-t-4">
-          <img src={Logo} className="pl-6 mt-2" />
+        <div className="hidden md:grid col-span-2 border-t-4 ">
 
-          <nav className="flex flex-col align-center justify-between mt-2">
-            <div className="flex-grow-1">
-              <ul className="flex flex-col justify-around pl-5">
-                <li className="mt-3">
+          <div className="row-span-1">
+            <img src={Logo} className="pl-6 mt-2" />
+          </div>
+
+          <div className="row-span-6">
+            <nav className="flex flex-col align-center justify-between mt-2">
+
+              <div className="">
+                <ul className="flex flex-col justify-around pl-5">
+                  <li className="mt-3">
+                    <Link
+                        to="/feed"
+                        className="text-3xl flex flex-row"
+                      >
+                        <img src={Home} className="mr-5" />
+                        INÍCIO
+                    </Link>
+                  </li>
+                  <li className="mt-3">
+                      <Link
+                        to="/explore"
+                        className="text-3xl flex flex-row"
+                      >
+                        <img src={Globe} className="mr-5" />
+                        EXPLORAR
+                    </Link>
+                  </li>
+                  <li className="mt-3">
+                      <Link
+                        to="/notifications"
+                        className="text-3xl flex flex-row"
+                      >
+                        <img src={Bell} className="mr-5" />
+                        NOTIFICAÇÕES
+                    </Link>
+                  </li>
+                  <li className="mt-3">
+                    <Link
+                        to="/chat"
+                        className="text-3xl flex flex-row"
+                      >
+                        <img src={Mail} className="mr-5" />
+                        MENSAGENS
+                    </Link>
+                  </li>
+                  <li className="mt-3">
+                      <Link
+                        to="/more"
+                        className="text-3xl flex flex-row"
+                      >
+                      <img src={PlusSquare} className="mr-5" />
+                      MAIS
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+            </nav>
+          </div>
+
+          <div className="row-span-1 flex flex-row">
                   <Link
-                      to="/feed"
-                      className="text-3xl flex flex-row"
-                    >
-                      <img src={Home} className="mr-5" />
-                      INÍCIO
+                        to="/perfil"
+                        className="flex flex-col items-start align-bottom p-6"
+                      >
+                    <h2 className="font-extrabold text-2xl">Fulano</h2>
+                    <h3 className="text-lg">@Fulano</h3>
                   </Link>
-                </li>
-                <li className="mt-3">
-                    <Link
-                      to="/explore"
-                      className="text-3xl flex flex-row"
-                    >
-                      <img src={Globe} className="mr-5" />
-                      EXPLORAR
-                  </Link>
-                </li>
-                <li className="mt-3">
-                    <Link
-                      to="/notifications"
-                      className="text-3xl flex flex-row"
-                    >
-                      <img src={Bell} className="mr-5" />
-                      NOTIFICAÇÕES
-                  </Link>
-                </li>
-                <li className="mt-3">
-                  <Link
-                      to="/messages"
-                      className="text-3xl flex flex-row"
-                    >
-                      <img src={Mail} className="mr-5" />
-                      MENSAGENS
-                  </Link>
-                </li>
-                <li className="mt-3">
-                    <Link
-                      to="/more"
-                      className="text-3xl flex flex-row"
-                    >
-                    <img src={PlusSquare} className="mr-5" />
-                    MAIS
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-
-            <div className="flex-grow-1">
-                <Link
-                      to="/perfil"
-                      className="flex flex-col md:flex-row items-center justify-start"
-                    >
-                  <div className="border-2 rounded-full md:ml-10 md:mr-5"><img src={User1} className="p-6"></img></div>
-                  <span>Fulano</span>
-                </Link>
-            </div>
-
-          </nav>
+              </div>
 
         </div>
 
@@ -136,15 +141,9 @@ export default function Feed() {
 
           <div className="row-auto flex justify-center items-start text-center">
             
-            <div className="border-2 rounded-3xl w-11/12 h-64 overflow-y-scroll">
+            <div className="border-2 rounded-3xl w-11/12 h-64">
 
-              <span><h2 className="mt-2">CHAT</h2></span>
-
-              <span className="border-2 rounded-full flex p-1 m-2 items-center">
-                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
-                <span className="flex-1 ml-2">Fulano</span>
-                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
-              </span>
+              {/* <span><h2 className="mt-2">CHAT</h2></span>
 
               <span className="border-2 rounded-full flex p-1 m-2 items-center">
                 <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
@@ -193,6 +192,12 @@ export default function Feed() {
                 <span className="flex-1 ml-2">Fulano</span>
                 <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
               </span>
+
+              <span className="border-2 rounded-full flex p-1 m-2 items-center">
+                <div className="flex-none border-2 rounded-full"><img src={User1} className="p-4"></img></div>
+                <span className="flex-1 ml-2">Fulano</span>
+                <div className="flex-1 w-10/12 flex justify-end"><div className="rounded-full h-3 w-3 bg-green-500"></div></div>
+              </span> */}
 
             </div>
           </div>
