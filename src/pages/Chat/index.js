@@ -12,6 +12,7 @@ export default function Chat() {
         <>
             <div className="h-screen w-screen overflow-hidden">
                 <div className="grid grid-cols-12 border ">
+                    
                     <div className="col-span-4 border h-screen overflow-y-scroll ">
 
                         <div className="row-span-1 border">
