@@ -13,7 +13,7 @@ export default function Chat() {
             <div className="h-screen w-screen overflow-hidden">
                 <div className="grid grid-cols-12 border ">
                     
-                    <div className="col-span-4 border h-screen overflow-y-scroll ">
+                    <div className="col-span-12 md:col-span-4 border h-screen overflow-y-scroll ">
 
                         <div className="row-span-1 border">
                             <span className="flex p-1 m-2 items-center justify-between">
@@ -164,7 +164,7 @@ export default function Chat() {
 
                     </div>
 
-                    <div className="col-span-8 border">
+                    <div className="hidden md:col-span-8 border">
                         teste
                     </div>
 

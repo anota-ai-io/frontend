@@ -435,6 +435,11 @@ export default class Feed extends Component {
             </div>
   
             
+            <div className="row-span-1 border flex text-center justify-center">
+              <a href="#" className="text-blue-600 font-bold">Visualizar mais publicações</a>
+            </div>
+
+
             {/* LISTA DE PUBLICACOES */}
             {this.renderPublications()}
             
