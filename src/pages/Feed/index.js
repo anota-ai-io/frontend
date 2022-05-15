@@ -339,9 +339,6 @@ export default class Feed extends Component {
 
   render() {
     return (
-      <>
-        {this.loading && <ComponentSkeleton />}
-        {!this.loading &&
           <>
             <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-7 overflow-hidden">
               
@@ -501,8 +498,6 @@ export default class Feed extends Component {
       
       
             </div>
-          </>
-        }
       </>
     );
   }
