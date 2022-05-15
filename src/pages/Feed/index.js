@@ -446,11 +446,11 @@ export default class Feed extends Component {
           <div className="hidden md:grid col-span-2 border-t-4 gap-5">
   
             <div className="row-auto flex justify-center items-center mt-2">
-              <input type="text" className="input border-2 rounded-full w-11/12 h-16"></input>
+              <input type="text" placeholder="      Pesquisar no Anota Aí" className="input border-2 rounded-full w-11/12 h-16"></input>
             </div>
   
             <div className="row-auto flex justify-center items-start">
-              <div className="border-2 rounded-3xl w-11/12 h-3/6"></div>
+              <div className="border-2 rounded-3xl w-11/12 h-64"></div>
             </div>
   
             <div className="row-auto flex justify-center items-start text-center">
