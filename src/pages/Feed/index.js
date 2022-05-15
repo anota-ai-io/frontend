@@ -20,11 +20,13 @@ import Comments from '../../assets/message-circle.svg'
 import Downloads from '../../assets/download.svg'
 import Hearts from '../../assets/heart.svg'
 import Share2 from '../../assets/share-2.svg'
+import xClose from '../../assets/x.svg'
 
 import { Link } from "react-router-dom";
 
 
 const publicationsState = {
+  menuMobileState: false,
   dados: [
       {
         dtCreatedAt: Date.now(),
@@ -275,6 +277,11 @@ export default class Feed extends Component {
 
   state = { ...publicationsState }
 
+  updateMenuMobile(){
+    const menuMobileState = this.state.menuMobileState
+    this.setState({ menuMobileState: !menuMobileState })
+  }
+
   renderPublications() {
     return this.state.dados.map(pub => {
       return (
@@ -285,23 +292,11 @@ export default class Feed extends Component {
           </div>
 
           {/* PRIMEIRA LINHA */}
-          <div className="col-span-10 row-span-2 flex  justify-around mt-5 mr-5">
-            <div className="flex items-center justify-start mt-5"><span className="text-xl"> { pub.objUser.nmName } </span></div>
-            <div className="flex items-center justify-start mt-5"><span className="text-lg"> { pub.objUser.nmUser } </span></div>
-            <div className="flex items-center justify-start mt-5"><span className="text-lg">{ pub.dtCreatedAt }</span></div>
+          <div className="col-span-10 row-span-2 flex justify-self-start mt-5 mr-5">
+            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-xl"> { pub.objUser.nmName } </span></div>
+            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-lg"> { pub.objUser.nmUser } </span></div>
+            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-lg">{ pub.dtCreatedAt }</span></div>
           </div>
-
-          {/* <div className="col-span-3 row-span-1 border ">
-            <div className="flex items-center justify-start mt-5"><span className="text-xl"> { pub.objUser.nmName } </span></div>
-          </div>
-
-          <div className="col-span-3 row-span-1 border">
-           <div className="flex items-center justify-start mt-5"><span className="text-lg"> { pub.objUser.nmUser } </span></div>
-          </div>
-
-          <div className="col-span-4 row-span-1 border">
-            <div className="flex items-center justify-start mt-5"><span className="text-lg">{ pub.dtCreatedAt }</span></div>
-          </div> */}
 
           {/* SEGUNDA LINHA */}
 
@@ -338,10 +333,11 @@ export default class Feed extends Component {
           
 
           {/* ESQUERDA - MENU E USUÁRIO */}
-          <div className="hidden md:grid col-span-2 border-t-4 ">
+          <div className={this.state.menuMobileState ? "col-span-1" : "hidden md:grid col-span-2 border-t-4"}>
   
-            <div className="row-span-1">
-              <img src={Logo} className="pl-6 mt-2" />
+            <div className="flex flex-row justify-between md:row-span-1 md:block md:p-5">
+              <img src={Logo} className="" />
+              <img src={xClose} className={this.state.menuMobileState ? "block mr-5" : "hidden " } width={25} height={25} onClick={e => this.updateMenuMobile()}/>
             </div>
   
             <div className="row-span-6">
@@ -414,16 +410,16 @@ export default class Feed extends Component {
   
 
           {/* CENTRO - PUBLICAÇÕES E POSTS */}
-          <div className="col-span-1 md:col-span-3 border-t-4 border-2 h-screen overflow-y-scroll">
+          <div  className={this.state.menuMobileState ? "hidden" : "col-span-1 md:col-span-3 border-t-4 border-2 h-screen overflow-y-scroll"}>
             
 
             {/* MENU MOBILE */}
-            <div className="md:hidden row-span-1 border-b-2 p-5 mt-5">
+            <div className="md:hidden row-span-1 border-b-2 p-5 mt-5" onClick={e => this.updateMenuMobile()}>
               <img src={Menu}></img>
             </div>
   
             {/* ADICIONAR PUBLICACAO */}
-            <div className="row-span-1 max-h-52	 border-b-2 p-5 mt-5">
+            <div className="row-span-1 max-h-52	border-b-2 p-5 mt-5">
               
               <div className=" flex flex-col md:flex-row items-center justify-center">
                 <div className="border-2 rounded-full md:ml-10 md:mr-5"><img src={User1} className="p-6"></img></div>
