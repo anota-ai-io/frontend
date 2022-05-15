@@ -426,7 +426,7 @@ export default class Feed extends Component {
                 
 
                 {/* MENU MOBILE */}
-                <div className="md:hidden row-span-1 border-b-2 p-5 mt-5 " onClick={e => this.updateMenuMobile()}>
+                <div className="md:hidden row-span-1 border-b-2 p-5 mt-5 " onClick={e => this.setMenuMobile()}>
                   <img src={Menu} className=""></img>
                 </div>
       
