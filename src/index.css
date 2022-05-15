@@ -35,6 +35,20 @@ code {
   border-radius: 100px;
 }
 
+
+@keyframes go-back {
+  0% {
+      transform: translateX(100px);
+  }
+  100% {
+      transform: translateX(0);
+  }
+}
+
+.animacao-padrao {
+  animation: go-back 1s;
+}
+
 /* Handle on hover */
 /* ::-webkit-scrollbar-thumb:hover {
   background: rgb(54, 96, 170);

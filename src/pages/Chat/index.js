@@ -1,6 +1,5 @@
 import React from "react";
 
-import User from '../../assets/user.svg'
 import User1 from '../../assets/user1.svg'
 import Voltar from '../../assets/voltar.svg'
 
@@ -10,7 +9,7 @@ import { Link } from "react-router-dom";
 export default function Chat() {
     return (
         <>
-            <div className="h-screen w-screen overflow-hidden">
+            <div className="h-screen w-screen overflow-hidden animacao-padrao">
                 <div className="grid grid-cols-12 border ">
                     
                     <div className="col-span-12 md:col-span-4 border h-screen overflow-y-scroll ">
