@@ -1,11 +1,28 @@
 import { React } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from 'nookies';
+
+const loginSchema = yup
+    .object({
+        email: yup
+            .string()
+            .required('E-mail obrigatório')
+            .email('E-mail inválido'),
+        password: yup
+            .string()
+            .min(6, 'Minimo de 6 caracteres')
+            .required('Senha obrigatória'),
+    })
+    .required();
 
 export default function Login() {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState } = useForm();
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(loginSchema),
+  });
 
   const signIn = async data => {
     await fetch("https://anotaifsp.herokuapp.com/api/auth/login", {
@@ -18,6 +35,7 @@ export default function Login() {
     })
       .then(response => response.json())
       .then(response => {
+        console.log(response.response)
         setCookie(undefined, 'docs.token', response.response.accessToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
@@ -58,6 +76,9 @@ export default function Login() {
                 placeholder="Email"
                 {...register("email")}
               />
+              {formState.errors.email?.message ? (
+                <span className="text-red-500 text-sm">{formState.errors.email.message}</span>
+              ) : null}
             </div>
             <div className="mb-6">
               <label
@@ -73,6 +94,9 @@ export default function Login() {
                 placeholder="Senha"
                 {...register("password")}
               />
+              {formState.errors.password?.message ? (
+                <span className="text-red-500 text-sm">{formState.errors.password.message}</span>
+              ) : null}
               {/* <p className="text-red-500 text-xs italic">Please choose a password.</p> */}
             </div>
             <div className="flex items-center justify-between">
