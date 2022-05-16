@@ -8,6 +8,7 @@ const Login = React.lazy(() => import("./pages/Login"));
 const Register = React.lazy(() => import("./pages/Register"));
 const Feed = React.lazy(() => import("./pages/Feed"));
 const Perfil = React.lazy(() => import("./pages/Perfil"));
+const Chat = React.lazy(() => import("./pages/Chat"));
 
 export default function Routes() {
   return (
@@ -23,6 +24,11 @@ export default function Routes() {
           <Route
             path="/feed"
             element={<ProtectedRoute component={Feed} redirect="/login" />}
+          />
+
+          <Route
+            path="/chat"
+            element={<ProtectedRoute component={Chat} redirect="/login" />}
           />
 
           <Route
