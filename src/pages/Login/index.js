@@ -36,10 +36,10 @@ export default function Login() {
       .then(response => response.json())
       .then(response => {
         console.log(response.response)
-        setCookie(undefined, 'docs.token', response.response.accessToken, {
+        setCookie(undefined, 'anotaai.token', response.response.accessToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
-        setCookie(undefined, 'docs.refreshToken', response.response.refreshToken, {
+        setCookie(undefined, 'anotaai.refreshToken', response.response.refreshToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
 

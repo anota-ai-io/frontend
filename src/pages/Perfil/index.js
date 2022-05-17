@@ -58,7 +58,7 @@ export default function Perfil() {
         <div className="w-screen grid gap-4 grid-cols-1 md:grid-cols-3 p-6">
           {posts.map(post => (
             <div className="border border-gray-200 p-7 shadow-xl rounded-lg">
-              <p className="text-sm text-gray-600 font-press-start">{post.content}</p>
+              <p className="text-sm text-gray-600 font-sans">{post.content}</p>
               {post.img}
             </div>
           ))}

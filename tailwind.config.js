@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'press-start': ["DM Sans"],
+        'sans': ["Inter var"],
       },
       backgroundImage: {
         'nuvem-formas': "url('./assets/home_office.png')",
