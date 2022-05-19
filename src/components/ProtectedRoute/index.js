@@ -16,7 +16,7 @@ export default function ProtectedRoute({ component: Component, redirect }) {
   useEffect(() => {
     const cookies = parseCookies();
 
-    const accessToken = cookies["docs.token"];
+    const accessToken = cookies["anotaai.token"];
 
     try {
       if (accessToken !== '') {
