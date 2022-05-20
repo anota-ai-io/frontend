@@ -5,6 +5,7 @@ import React, { useEffect, useState, } from "react";
 import { parseCookies } from 'nookies';
 import Modal from "../../components/Modal";
 
+import LogoIcon from '../../assets/logo_icon.svg'
 import Logo from '../../assets/logo.png'
 import User1 from '../../assets/user1.svg'
 import Bell from '../../assets/bell.svg'
@@ -153,8 +154,9 @@ export default function Feed() {
         {/* ESQUERDA - MENU E USUÁRIO */}
         <div className={menuMobileState ? "col-span-1 animacao-padrao" : "hidden md:grid col-span-2 border-t-4"}>
 
-          <div className="flex flex-row justify-between md:row-span-1 md:block md:p-5">
-            <img src={Logo} className="" />
+          <div className="flex flex-row ml-2 mt-2 justify-between md:ml-0 md:row-span-1 md:block md:p-14 lg:p-5">
+            <img src={Logo} className="sm:block md:hidden lg:block" /> 
+            <img src={LogoIcon} className="hidden md:block lg:hidden" />
             <img src={xClose} className={menuMobileState ? "block mr-5" : "hidden " } width={25} height={25} onClick={setMenuMobile}/>
           </div>
 
@@ -162,14 +164,14 @@ export default function Feed() {
             <nav className="flex flex-col align-center justify-between mt-2">
 
               <div className="">
-                <ul className="flex flex-col justify-around pl-5">
+                <ul className="flex flex-col justify-around md:pl-16 lg:pl-5 ">
                   <li className="mt-5">
                     <Link
                         to="/feed"
                         className="text-xl flex flex-row"
                       >
                         <img src={Home} className="mr-5" />
-                        INÍCIO
+                        <span className="sm:block md:hidden lg:block">INÍCIO</span>
                     </Link>
                   </li>
                   <li className="mt-5">
@@ -178,7 +180,7 @@ export default function Feed() {
                         className="text-xl flex flex-row"
                       >
                         <img src={Globe} className="mr-5" />
-                        EXPLORAR
+                        <span className="sm:block md:hidden lg:block">EXPLORAR</span>
                     </Link>
                   </li>
                   <li className="mt-5">
@@ -187,7 +189,7 @@ export default function Feed() {
                         className="text-xl flex flex-row"
                       >
                         <img src={Bell} className="mr-5" />
-                        NOTIFICAÇÕES
+                        <span className="sm:block md:hidden lg:block">NOTIFICAÇÕES</span>
                     </Link>
                   </li>
                   <li className="mt-5">
@@ -196,7 +198,7 @@ export default function Feed() {
                         className="text-xl flex flex-row"
                       >
                         <img src={Mail} className="mr-5" />
-                        MENSAGENS
+                        <span className="sm:block md:hidden lg:block">MENSAGENS</span>
                     </Link>
                   </li>
                   <li className="mt-5">
@@ -205,7 +207,7 @@ export default function Feed() {
                         className="text-xl flex flex-row"
                       >
                       <img src={PlusSquare} className="mr-5" />
-                      MAIS
+                      <span className="sm:block md:hidden lg:block">MAIS</span>
                     </Link>
                   </li>
                 </ul>
@@ -219,7 +221,7 @@ export default function Feed() {
           <div className="row-span-1 flex flex-row justify-between">
               <Link
                     to="/perfil"
-                    className="flex flex-col items-start align-bottom p-6"
+                    className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom p-6 md:p-12 lg:p-6 "
                   >
                 <h2 className="font-extrabold text-lg">Fulano</h2>
                 <h3 className="text-base">@Fulano</h3>

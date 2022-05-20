@@ -16,7 +16,7 @@ export default function Modal() {
   return (
     <>
       <button
-        className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
+        className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
         type="button"
         onClick={() => setShowModal(true)}
       >
@@ -28,7 +28,7 @@ export default function Modal() {
           <div
             className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none animacao-padrao"
           >
-            <div className="relative w-6/12 h-3/6 ">
+            <div className="relative w-full h-full md:w-6/12 md:h-3/6 ">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
@@ -46,11 +46,11 @@ export default function Modal() {
                   </button>
                 </div>
                 {/*body*/}
-                <div className="relative p-6 flex-auto">
+                <div className="relative flex-auto">
                     
                     <form onSubmit={handleSubmit(onSubmit)} className="justify-center text-center">
-                        <textarea placeholder="  Escreva sua públicação..." {...register("content", {})} className="w-full h-32 md:h-64"/>
-                    </form >
+                        <textarea placeholder="  Escreva sua públicação..." {...register("content", {})} className="w-full h-96 m-0 md:h-64"/>
+                    </form>
 
                     <div className="flex flex-row justify-center md:justify-start mt-5">
                         <img className="mr-5" src={Image}></img>
@@ -72,7 +72,7 @@ export default function Modal() {
                     type="submit"
                     onClick={() => setShowModal(false)}
                   >
-                    Públicar
+                    Publicar
                   </button>
                 </div>
               </div>
