@@ -16,24 +16,19 @@ export default function Modal() {
   const handleSubmitPosts = async data => {
     const cookies = parseCookies();
     console.log(images)
-    console.log(JSON.stringify({
-      "content": data.content, 
-      "hashtags": ["teste"],
-      "images": images
-    }))
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('content', data.content);
-    formData.append('hashtags', ['John123']);
+    formData.append('hashtags', 'John123');
+    formData.append('hashtags', 'John1234');
     // formData.append('images', ['John123']);
 
     await fetch("https://anotaifsp.herokuapp.com/api/post", {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          "Authorization": `Bearer ${cookies['anotaai.token']}`
-        },
-        body: formData
-      })
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${cookies['anotaai.token']}`
+      },
+      body: formData
+    })
         .then(response => response.json())
         .then(data => {
           setShowModal(false)
@@ -97,7 +92,7 @@ export default function Modal() {
 
                     <div className="flex flex-row justify-center md:justify-start mt-5">
                         <img className="mr-5" src={Image} onClick={chooseImage} />
-                        <input type="file" ref={hiddenFileInput} onChange={handleChange} id="file-upload" class="hidden" multiple />
+                        <input type="file" ref={hiddenFileInput} onChange={handleChange} id="file-upload" className="hidden" multiple />
                         <img className="mr-5" src={Smile} />
                         <img className="mr-5" src={Vector} />
                     </div>
