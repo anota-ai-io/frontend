@@ -109,7 +109,7 @@ export default function Feed() {
 
       <div className="row-span-1 border grid grid-cols-12 ">
         <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-          <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full "> <img src={User1} className="p-3 md:p-6"></img> </div> </div>
+          <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={post.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
         </div>
 
         <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
