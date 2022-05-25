@@ -23,104 +23,54 @@ import Hearts from '../../assets/heart.svg'
 import Share2 from '../../assets/share-2.svg'
 import xClose from '../../assets/x.svg'
 
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
-export default function Feed() {  
-  const navigate = useNavigate();
-
-  const [posts, setPosts] = useState([])
+export default function Post() {
+  const {id} = useParams();
+  const [post, setPost] = useState()
   const [menuMobileState, setMenuMobileState] = useState(false)
-  const [loadPostsState, setLoadPotsState] = useState(true)
 
   useEffect(() => {
-    console.log(loadPostsState)
     const cookies = parseCookies();
     console.log(cookies['anotaai.token'])
-    fetch("https://anotaifsp.herokuapp.com/api/feed", {
+    fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${cookies['anotaai.token']}`
-      } 
+      }
     })
       .then(response => response.json())
       .then(response => {
-        setPosts(response.response.posts)
-      })
-      .then(response => {
-        setLoadPotsState(false)
-        console.log(loadPostsState)
+
+        setPost(response.response.post)
+        console.log(post.length)
       })
       .catch(err => {
         console.log(err)
       })
-  }, [loadPostsState])
+  }, [])
 
   function setMenuMobile() {
     setMenuMobileState(!menuMobileState)
   }
 
   function formatDate(date) {
-    const data = new Date(date).toLocaleString() 
+    const data = new Date(date).toLocaleString()
     return data
-  }
-
-    
-  function renderPublications() {
-    console.log(posts)
-    return posts.map(post => (
-
-      <div key={post.id} className="row-span-1 border grid grid-cols-12" onClick={() => navigate(`/post/${post.id}`)}>
-        <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-          <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={post.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
-        </div>
-
-        <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
-          <div className="flex items-center justify-start mt-5 ml-2"><span className="text-base md:text-xl"> { post.user.name } </span></div>
-          <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm md:text-lg"> @{ post.user.username } </span></div>
-          <div className="hidden md:flex items-center justify-start mt-5 ml-2"><span className="text-xs md:text-lg">{ formatDate(post.createdAt) }</span></div>
-        </div>
-
-
-        <div className="col-span-9 row-span-1 ">
-          <div className="flex md:hidden items-center justify-start ml-2"><span className="text-xs md:text-lg">{ formatDate(post.createdAt) }</span></div>
-          <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm whitespace-pre-line break-all">{ post.content }</span></div>
-          <div className="flex items-center justify-start mt-6 ml-2">{ post.hashtags.map(hashtag => <span key={hashtag.id} className="text-sm text-gray-400 whitespace-pre-line break-all">#{hashtag.name} </span>)}</div>
-        </div>
-
-
-        <div className="col-span-10 row-span-1 ">
-          <div className={ loadPostsState ? "animate-pulse flex space-x-4" : "flex items-center justify-center mt-5 ml-2" }>
-            { loadPostsState ? <div className="h-96 w-full mr-8 bg-slate-200"></div> : <img className="mt-2 w-full mr-8" src={post.images[0]} /> }
-          </div>
-        </div>
-
-
-        <div className="col-span-8 row-span-1 mb-5">
-          <div className="flex flex-row items-center justify-between mt-5">
-            <span className="flex flex-row"><img src={Comments} className="mr-2" /> {post.commentsCounter} </span>
-            <span className="flex flex-row"><img src={Hearts} className="mr-2" /> {post.likesCounter} </span>
-            <span className="flex flex-row"><img src={Share2} className="mr-2" /> {post.sharesCounter} </span>
-            <span className="flex flex-row"><img src={Downloads} className="mr-2" /> {post.downloadsCounter} </span>
-          </div>
-        </div>
-      </div>
-        
-      ))
   }
 
 
   return (
     <>
       <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-12 overflow-hidden">
-        
 
         {/* ESQUERDA - MENU E USUÁRIO */}
         <div className={menuMobileState ? "col-span-1 animacao-padrao" : "hidden md:grid col-span-2 border-t-4"}>
 
           <div className="flex flex-row ml-2 mt-2 justify-between md:ml-0 md:row-span-1 md:block md:p-14 lg:p-5">
-            <img src={Logo} className="sm:block md:hidden lg:block" /> 
+            <img src={Logo} className="sm:block md:hidden lg:block" />
             <img src={LogoIcon} className="hidden md:block lg:hidden" />
             <img src={xClose} className={menuMobileState ? "block mr-5" : "hidden " } width={25} height={25} onClick={setMenuMobile}/>
           </div>
@@ -181,7 +131,7 @@ export default function Feed() {
             </nav>
           </div>
 
-          
+
 
           <div className="row-span-1 flex flex-row justify-between">
               <Link
@@ -201,27 +151,89 @@ export default function Feed() {
 
 
         {/* CENTRO - PUBLICAÇÕES E POSTS */}
-        <div  
+        <div
           className={menuMobileState ? "hidden" : "col-span-1 md:col-span-6 border-t-4 border-2 h-screen overflow-y-scroll animacao-padrao"}>
-          
-          
+
+
 
           {/* MENU MOBILE */}
           <div className="md:hidden row-span-1 border-b-2 p-5 mt-5 " onClick={setMenuMobile}>
             <img src={Menu} className=""></img>
           </div>
-    
+
           <div className="row-span-1 border flex text-center justify-center">
             <Link to="/feed" className="text-blue-600 font-bold">Visualizar mais publicações</Link>
           </div>
 
 
           {/* LISTA DE PUBLICACOES */}
-          {
-            renderPublications()
-          }
-    
-          
+          {/* {
+            loadPostsState ? renderPublicationsAnimated() : renderPublications()
+          } */}
+
+
+          {post &&
+            <>
+                <div key={post.id} className="row-span-1 border grid grid-cols-12">
+                    <div className="ml-2 md:ml-0  col-span-2 row-span-6">
+                        <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={post.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
+                    </div>
+
+                    <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
+                        <div className="flex items-center justify-start mt-5 ml-2"><span className="text-base md:text-xl"> { post.user.name } </span></div>
+                        <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm md:text-lg"> @{ post.user.username } </span></div>
+                        <div className="hidden md:flex items-center justify-start mt-5 ml-2"><span className="text-xs md:text-lg">{ formatDate(post.createdAt) }</span></div>
+                    </div>
+
+
+                    <div className="col-span-9 row-span-1 ">
+                        <div className="flex md:hidden items-center justify-start ml-2"><span className="text-xs md:text-lg">{ formatDate(post.createdAt) }</span></div>
+                        <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm whitespace-pre-line break-all">{ post.content }</span></div>
+                        <div className="flex items-center justify-start mt-6 ml-2">{ post.hashtags.map(hashtag => <span key={hashtag.id} className="text-sm text-gray-400 whitespace-pre-line break-all">#{hashtag.name} </span>)}</div>
+                    </div>
+
+                    <div className="col-span-8 row-span-1 mb-5">
+                        <div className="flex flex-row items-center justify-between mt-5">
+                            <span className="flex flex-row"><img src={Comments} className="mr-2" /> {post.commentsCounter} </span>
+                            <span className="flex flex-row"><img src={Hearts} className="mr-2" /> {post.likesCounter} </span>
+                            <span className="flex flex-row"><img src={Share2} className="mr-2" /> {post.sharesCounter} </span>
+                            <span className="flex flex-row"><img src={Downloads} className="mr-2" /> {post.downloadsCounter} </span>
+                        </div>
+                    </div>
+                </div>
+                {post.comments.map(comment => (
+                    // {
+                    //     "content": "Comentário pro post",
+                    //     "createdAt": "2022-05-16T23:31:36.521Z",
+                    //     "user": {
+                    //       "id": 15,
+                    //       "name": "Luan Rodrigues Petruitis",
+                    //       "username": "luanpetruitis",
+                    //       "email": "luanpetruitis@gmail.com",
+                    //       "profilePicture": null
+                    //     }
+                    //   }
+                    <div key={comment.id} className="row-span-1 border grid grid-cols-12">
+                {/* <div key={post.id} className=""> */}
+
+                        <div className="ml-2 md:ml-0  col-span-2 row-span-6">
+                            <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={comment.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
+                        </div>
+
+                        <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
+                            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-base md:text-xl"> { comment.user.name } </span></div>
+                            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm md:text-lg"> @{ comment.user.username } </span></div>
+                            <div className="hidden md:flex items-center justify-start mt-5 ml-2"><span className="text-xs md:text-lg">{ formatDate(comment.createdAt) }</span></div>
+                        </div>
+
+
+                        <div className="col-span-9 row-span-1 ">
+                            <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm whitespace-pre-line break-all">{ comment.content }</span></div>
+                        </div>
+                    </div>
+                ))}
+            </>
+        }
 
         </div>
 
@@ -238,17 +250,14 @@ export default function Feed() {
           </div>
 
           <div className="row-auto flex justify-center items-start text-center">
-            
+
             <div className="border-2 rounded-3xl w-11/12 h-64">
 
             </div>
           </div>
-          
         </div>
-
-
 
       </div>
     </>
-  );  
+  );
 }
