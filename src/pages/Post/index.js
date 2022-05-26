@@ -4,6 +4,7 @@ import React, { useEffect, useState, } from "react";
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies } from 'nookies';
 import Modal from "../../components/Modal";
+import { Carousel } from '../../components';
 
 import LogoIcon from '../../assets/logo_icon.svg'
 import Logo from '../../assets/logo.png'
@@ -22,14 +23,33 @@ import Downloads from '../../assets/download.svg'
 import Hearts from '../../assets/heart.svg'
 import Share2 from '../../assets/share-2.svg'
 import xClose from '../../assets/x.svg'
-
 import { Link, useParams } from "react-router-dom";
 
+const IMAGES = [
+  {
+    imageUrl: "https://loremflickr.com/600/300/paris",
+    placeHolder: "Paris"
+  },
+  {
+    imageUrl: "https://loremflickr.com/600/300/dog",
+    placeHolder: "Dog"
+  },
+  {
+    imageUrl: "https://loremflickr.com/600/300/cat",
+    placeHolder: "Cat"
+  },
+  {
+    imageUrl: "https://loremflickr.com/600/300/forest",
+    placeHolder: "Forest"
+  },
+];
 
 export default function Post() {
   const {id} = useParams();
   const [post, setPost] = useState()
   const [menuMobileState, setMenuMobileState] = useState(false)
+  const [loadPostsState, setLoadPotsState] = useState(true)
+
 
   useEffect(() => {
     const cookies = parseCookies();
@@ -45,7 +65,8 @@ export default function Post() {
       .then(response => {
 
         setPost(response.response.post)
-        console.log(post.length)
+        console.log(response.response.post)
+        setLoadPotsState(false)
       })
       .catch(err => {
         console.log(err)
@@ -192,6 +213,21 @@ export default function Post() {
                         <div className="flex items-center justify-start mt-6 ml-2">{ post.hashtags.map(hashtag => <span key={hashtag.id} className="text-sm text-gray-400 whitespace-pre-line break-all">#{hashtag.name} </span>)}</div>
                     </div>
 
+                    {/* <div className="col-span-10 row-span-1 ">
+                      <div className={ loadPostsState ? "animate-pulse flex space-x-4" : "flex items-center justify-center mt-5 ml-2" }>
+                        { loadPostsState ? <div className="h-96 w-full mr-8 bg-slate-200"></div> : <img className="mt-2 w-full mr-8" src={post.images[0]} /> }
+                      </div>
+                    </div> */}
+
+                    {/* CARROSSEL */}
+                    <div className="col-span-10 row-span-1 ">
+                    <Carousel time={3000}>
+                      { 
+                        IMAGES.map((image, index) => <img key={index} src={image.imageUrl} alt={image.placeHolder} />) 
+                      }
+                    </Carousel>
+                    </div>
+
                     <div className="col-span-8 row-span-1 mb-5">
                         <div className="flex flex-row items-center justify-between mt-5">
                             <span className="flex flex-row"><img src={Comments} className="mr-2" /> {post.commentsCounter} </span>
@@ -225,7 +261,6 @@ export default function Post() {
                             <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm md:text-lg"> @{ comment.user.username } </span></div>
                             <div className="hidden md:flex items-center justify-start mt-5 ml-2"><span className="text-xs md:text-lg">{ formatDate(comment.createdAt) }</span></div>
                         </div>
-
 
                         <div className="col-span-9 row-span-1 ">
                             <div className="flex items-center justify-start mt-5 ml-2"><span className="text-sm whitespace-pre-line break-all">{ comment.content }</span></div>
