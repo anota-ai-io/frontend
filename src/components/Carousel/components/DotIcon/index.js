@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const DotIcon = ({ selected }) => {
+const DotIconBase = ({ selected }) => {
   const activeColor = "rgba(65,150,212)";
   const inactiveColor = "rgba(208, 224, 240)";
   const fillColor = selected ? activeColor : inactiveColor;
@@ -12,4 +12,4 @@ const DotIcon = ({ selected }) => {
   );
 }
 
-export default DotIcon;
+export const DotIcon = forwardRef(DotIconBase);

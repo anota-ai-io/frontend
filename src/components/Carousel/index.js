@@ -1,18 +1,15 @@
-import React, {  useEffect } from 'react';
-import Thumbnail from '../Thumbnail';
-import DotIcon from '../DotIcon';
+import React, {  useEffect, forwardRef } from 'react';
+import {Thumbnail} from './components/Thumbnail/index';
+import {DotIcon} from './components/DotIcon';
+import {
+  ArrowCircleLeftIcon,
+  ArrowCircleRightIcon
+} from "@heroicons/react/outline";
 
-const Carousel = ({ children, time }) => {
+
+const CarouselBase = ({ children }) => {
   const [index, setIndex] = React.useState(0);
   const keys = children.map((child, index) => index);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newIndex = (index + 1) % keys.length;
-      setIndex(newIndex);
-    }, time);
-    return () => clearInterval(interval);
-  });
   
   const _slides = () => {
     return children.map((child, idx) => (
@@ -34,7 +31,9 @@ const Carousel = ({ children, time }) => {
     <div className="border-dashed border-2 border-gray-100 p-5 m-auto flex justify-center">
       <div className="grid grid-flow-row auto-rows-max">
         <div className="min-h-100">
+          {/* <ArrowCircleLeftIcon /> */}
           { _slides() }
+          {/* <ArrowCircleRightIcon /> */}
         </div>
         <div className="flex justify-center mt-2">
           { _sliderDots() }
@@ -44,4 +43,5 @@ const Carousel = ({ children, time }) => {
   );
 }
 
-export default Carousel;
+
+export const Carousel = forwardRef(CarouselBase);

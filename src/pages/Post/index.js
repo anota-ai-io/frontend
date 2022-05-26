@@ -4,7 +4,7 @@ import React, { useEffect, useState, } from "react";
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies } from 'nookies';
 import Modal from "../../components/Modal";
-import { Carousel } from '../../components';
+import { Carousel } from '../../components/Carousel/index';
 
 import LogoIcon from '../../assets/logo_icon.svg'
 import Logo from '../../assets/logo.png'
@@ -24,25 +24,9 @@ import Hearts from '../../assets/heart.svg'
 import Share2 from '../../assets/share-2.svg'
 import xClose from '../../assets/x.svg'
 import { Link, useParams } from "react-router-dom";
-
-const IMAGES = [
-  {
-    imageUrl: "https://loremflickr.com/600/300/paris",
-    placeHolder: "Paris"
-  },
-  {
-    imageUrl: "https://loremflickr.com/600/300/dog",
-    placeHolder: "Dog"
-  },
-  {
-    imageUrl: "https://loremflickr.com/600/300/cat",
-    placeHolder: "Cat"
-  },
-  {
-    imageUrl: "https://loremflickr.com/600/300/forest",
-    placeHolder: "Forest"
-  },
-];
+import {
+  CheckIcon
+} from "@heroicons/react/outline";
 
 export default function Post() {
   const {id} = useParams();
@@ -221,9 +205,9 @@ export default function Post() {
 
                     {/* CARROSSEL */}
                     <div className="col-span-10 row-span-1 ">
-                    <Carousel time={3000}>
+                    <Carousel>
                       { 
-                        IMAGES.map((image, index) => <img key={index} src={image.imageUrl} alt={image.placeHolder} />) 
+                        post.images.map((image, index) => <img key={index} src={image} />) 
                       }
                     </Carousel>
                     </div>
@@ -235,6 +219,24 @@ export default function Post() {
                             <span className="flex flex-row"><img src={Share2} className="mr-2" /> {post.sharesCounter} </span>
                             <span className="flex flex-row"><img src={Downloads} className="mr-2" /> {post.downloadsCounter} </span>
                         </div>
+                    </div>
+                    <div className="col-span-9 row-span-1">
+                      <form>
+                        <textarea
+                          placeholder="  Escreva seu comentário..."
+                          // {...register("content", {})}
+                          className="w-full h-96 m-0 md:h-36"
+                        />
+                        <button
+                          className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ml-auto mb-1 ease-linear transition-all duration-150"
+                          type="submit"
+                        >
+                          <span className="flex">
+                            <CheckIcon className="w-6 mr-2" />
+                            <span>Publicar</span>
+                          </span>
+                        </button>
+                      </form>
                     </div>
                 </div>
                 {post.comments.map(comment => (

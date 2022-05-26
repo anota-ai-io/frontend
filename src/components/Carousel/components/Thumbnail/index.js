@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 
-const Thumbnail = ({ children, id, selectedKey }) => {
+const ThumbnailBase = ({ children, id, selectedKey }) => {
   const show = (id === selectedKey);
 
   return (
@@ -10,4 +10,4 @@ const Thumbnail = ({ children, id, selectedKey }) => {
   );
 }
 
-export default Thumbnail;
+export const Thumbnail = forwardRef(ThumbnailBase);
