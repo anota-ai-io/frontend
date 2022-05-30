@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useEffect, useState, } from "react";
+import { useForm } from "react-hook-form";
 
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies } from 'nookies';
@@ -29,15 +30,39 @@ import {
 } from "@heroicons/react/outline";
 
 export default function Post() {
-  const {id} = useParams();
-  const [post, setPost] = useState()
-  const [menuMobileState, setMenuMobileState] = useState(false)
-  const [loadPostsState, setLoadPotsState] = useState(true)
+    const {id} = useParams();
+    const cookies = parseCookies();
+    const [post, setPost] = useState()
+    const [menuMobileState, setMenuMobileState] = useState(false)
+    const [loadPostsState, setLoadPotsState] = useState(true)
+
+    const { register, handleSubmit, reset } = useForm({});
+
+    const comment = async data => {
+        await fetch("https://anotaifsp.herokuapp.com/api/comment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${cookies['anotaai.token']}`
+        },
+        body: JSON.stringify({
+            "postId": id,
+            "content": data.comment
+        })
+        })
+        .then(response => {
+            reset({
+                comment: ""
+            })
+            setLoadPotsState(true)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
 
 
   useEffect(() => {
-    const cookies = parseCookies();
-    console.log(cookies['anotaai.token'])
     fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
       method: "GET",
       headers: {
@@ -55,7 +80,7 @@ export default function Post() {
       .catch(err => {
         console.log(err)
       })
-  }, [])
+  }, [loadPostsState])
 
   function setMenuMobile() {
     setMenuMobileState(!menuMobileState)
@@ -206,8 +231,8 @@ export default function Post() {
                     {/* CARROSSEL */}
                     <div className="col-span-10 row-span-1 ">
                     <Carousel>
-                      { 
-                        post.images.map((image, index) => <img key={index} src={image} />) 
+                      {
+                        post.images.map((image, index) => <img key={index} src={image} />)
                       }
                     </Carousel>
                     </div>
@@ -221,10 +246,10 @@ export default function Post() {
                         </div>
                     </div>
                     <div className="col-span-9 row-span-1">
-                      <form>
+                      <form onSubmit={handleSubmit(comment)}>
                         <textarea
                           placeholder="  Escreva seu comentário..."
-                          // {...register("content", {})}
+                          {...register("comment", {})}
                           className="w-full h-96 m-0 md:h-36"
                         />
                         <button
