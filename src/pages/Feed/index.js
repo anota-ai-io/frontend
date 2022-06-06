@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useState, } from "react";
+import React, { useDebugValue, useEffect, useState, } from "react";
 
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies } from 'nookies';
@@ -33,8 +33,11 @@ export default function Feed() {
   const [menuMobileState, setMenuMobileState] = useState(false)
   const [loadPostsState, setLoadPotsState] = useState(true)
 
+  const [computedLikeState, setComputedLikeState] = useState({})
+  const [likes, setLikes] = useState({});
+
+
   useEffect(() => {
-    console.log(loadPostsState)
     const cookies = parseCookies();
     console.log(cookies['anotaai.token'])
     fetch("https://anotaifsp.herokuapp.com/api/feed", {
@@ -50,15 +53,54 @@ export default function Feed() {
       })
       .then(response => {
         setLoadPotsState(false)
-        console.log(loadPostsState)
       })
       .catch(err => {
         console.log(err)
       })
   }, [loadPostsState])
 
+  useEffect(() => {
+    for(const post of posts){
+      let likeHold = likes;
+
+      likeHold[post.id] = post.likesCounter;
+
+      console.log("hold:", likeHold);
+
+      setLikes(likeHold)
+      console.log(likes);
+    }
+  }, [posts]);
+
   function setMenuMobile() {
     setMenuMobileState(!menuMobileState)
+  }
+
+  const computeLikePost = async id => {
+    const cookies = parseCookies();
+    console.log(cookies['anotaai.token'])
+    await fetch("https://anotaifsp.herokuapp.com/api/like", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies['anotaai.token']}`
+      },
+      body: JSON.stringify({
+        "postId": id,
+      })
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response.response)
+
+        let likesHold = likes;
+        likesHold[response.response.post.id] = response.response.post.likesCounter;
+        setLikes(likesHold);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
   }
 
   function formatDate(date) {
@@ -73,7 +115,7 @@ export default function Feed() {
 
       <div key={post.id} className="row-span-1 border grid grid-cols-12" onClick={() => navigate(`/post/${post.id}`)}>
         <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-          <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={post.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
+          <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={post.user.profilePicture } className="rounded-full w-24"></img> </div> </div>
         </div>
 
         <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
@@ -100,7 +142,7 @@ export default function Feed() {
         <div className="col-span-8 row-span-1 mb-5">
           <div className="flex flex-row items-center justify-between mt-5">
             <span className="flex flex-row"><img src={Comments} className="mr-2" /> {post.commentsCounter} </span>
-            <span className="flex flex-row"><img src={Hearts} className="mr-2" /> {post.likesCounter} </span>
+            <span className="flex flex-row"><img src={Hearts} className="mr-2" onClick={() => computeLikePost(post.id)} /> {likes[post.id]} </span>
             <span className="flex flex-row"><img src={Share2} className="mr-2" /> {post.sharesCounter} </span>
             <span className="flex flex-row"><img src={Downloads} className="mr-2" /> {post.downloadsCounter} </span>
           </div>

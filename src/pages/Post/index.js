@@ -222,12 +222,6 @@ export default function Post() {
                         <div className="flex items-center justify-start mt-6 ml-2">{ post.hashtags.map(hashtag => <span key={hashtag.id} className="text-sm text-gray-400 whitespace-pre-line break-all">#{hashtag.name} </span>)}</div>
                     </div>
 
-                    {/* <div className="col-span-10 row-span-1 ">
-                      <div className={ loadPostsState ? "animate-pulse flex space-x-4" : "flex items-center justify-center mt-5 ml-2" }>
-                        { loadPostsState ? <div className="h-96 w-full mr-8 bg-slate-200"></div> : <img className="mt-2 w-full mr-8" src={post.images[0]} /> }
-                      </div>
-                    </div> */}
-
                     {/* CARROSSEL */}
                     <div className="col-span-10 row-span-1 ">
                     <Carousel>
@@ -250,16 +244,17 @@ export default function Post() {
                         <textarea
                           placeholder="  Escreva seu comentário..."
                           {...register("comment", {})}
-                          className="w-full h-96 m-0 md:h-36"
+                          className="w-full h-72 m-0 md:h-36"
                         />
                         <button
-                          className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ml-auto mb-1 ease-linear transition-all duration-150"
+                          className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none ml-auto mb-5 ease-linear transition-all duration-150 mt-5"
                           type="submit"
                         >
                           <span className="flex">
                             <CheckIcon className="w-6 mr-2" />
                             <span>Publicar</span>
                           </span>
+                          
                         </button>
                       </form>
                     </div>
@@ -277,10 +272,9 @@ export default function Post() {
                     //     }
                     //   }
                     <div key={comment.id} className="row-span-1 border grid grid-cols-12">
-                {/* <div key={post.id} className=""> */}
 
                         <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-                            <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={comment.user.profilePicture} className="rounded-full w-24"></img> </div> </div>
+                            <div className="flex items-center justify-center mt-5"> <div className="border-2 rounded-full"> <img src={comment.user.profilePicture} className="rounded-full w-34"></img> </div> </div>
                         </div>
 
                         <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
