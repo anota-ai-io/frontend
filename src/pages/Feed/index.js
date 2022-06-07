@@ -309,31 +309,31 @@ export default function Feed() {
                         </nav>
                     </div>
 
-                    <div className="row-span-1 flex flex-row  p-2 items-center">
-                        <div className="md:ml-0 col-span-2 row-span-6 mr-4">
-                            <div className="flex items-center justify-center">
-                                <div className="border-2 rounded-full">
-                                    <img
-                                        src={UserContext.profilePicture}
-                                        className="rounded-full w-16"
-                                    ></img>
+                    <Link
+                        to="/perfil"
+                        className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
+                    >
+                        <div className="row-span-1 flex flex-row  p-2 items-center">
+                            <div className="md:ml-0 col-span-2 row-span-6 mr-4 m">
+                                <div className="flex items-center justify-center">
+                                    <div className="border-2 rounded-full">
+                                        <img
+                                            src={UserContext.profilePicture}
+                                            className="rounded-full w-16"
+                                        ></img>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div>
-                            <Link
-                                to="/perfil"
-                                className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
-                            >
+                            <div>
                                 <h2 className="font-extrabold text-lg">
                                     {UserContext.name}
                                 </h2>
                                 <h3 className="text-base">
                                     {UserContext.username}
                                 </h3>
-                            </Link>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
 
                     <div className="p-6">
                         <Modal />
