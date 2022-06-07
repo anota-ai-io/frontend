@@ -32,6 +32,7 @@ export default function Post() {
     const [menuMobileState, setMenuMobileState] = useState(false);
     const [loadPostsState, setLoadPotsState] = useState(true);
     const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState();
 
     const { register, handleSubmit, reset } = useForm({});
 
@@ -74,9 +75,8 @@ export default function Post() {
             .then(response => {
                 setPost(response.response.post);
                 setComments(response.response.post.comments);
-                return response.response.post.comments
             })
-            .then(commentsExists => {
+            .then(() => {
                 socket = io('https://anotaifsp.herokuapp.com');
                 // socket = io('http://localhost:3000');
                 console.log('Socket Aberto');
@@ -86,11 +86,9 @@ export default function Post() {
                         socketId: socket.id,
                         postId: id,
                     });
-                    
+
                     socket.on('new_comment', data => {
-                        let commentsHold = commentsExists;
-                        console.log(commentsExists)
-                        setComments([...commentsHold, data]);
+                        setNewComment(data);
                     });
                 });
             })
@@ -108,6 +106,13 @@ export default function Post() {
             socket.disconnect();
         };
     }, []);
+
+    useEffect(() => {
+        if (newComment) {
+            console.log(newComment);
+            setComments([...comments, newComment]);
+        }
+    }, [newComment]);
 
     function setMenuMobile() {
         setMenuMobileState(!menuMobileState);
