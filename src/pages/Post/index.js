@@ -60,7 +60,7 @@ export default function Post() {
     };
 
     useEffect(() => {
-        const socket = io('http://localhost:5000');
+        const socket = io('https://anotaifsp.herokuapp.com:5000');
         console.log('Socket Criado');
 
         socket.emit('register', {
@@ -80,8 +80,8 @@ export default function Post() {
     }, []);
 
     useEffect(() => {
-        // fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
-        fetch(`http://localhost:3000/api/post/${id}`, {
+        fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
+        // fetch(`http://localhost:3000/api/post/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
