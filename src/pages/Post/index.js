@@ -9,7 +9,6 @@ import { Carousel } from '../../components/Carousel/index';
 
 import LogoIcon from '../../assets/logo_icon.svg';
 import Logo from '../../assets/logo.png';
-import User1 from '../../assets/user1.svg';
 import Bell from '../../assets/bell.svg';
 import Globe from '../../assets/globe.svg';
 import Home from '../../assets/home.svg';
@@ -38,6 +37,7 @@ export default function Post() {
 
     const comment = async data => {
         await fetch('https://anotaifsp.herokuapp.com/api/comment', {
+            // await fetch('http://localhost:3000/api/comment', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,28 +60,10 @@ export default function Post() {
     };
 
     useEffect(() => {
-        const socket = io('https://anotaifsp.herokuapp.com:5000');
-        console.log('Socket Criado');
+        let socket = null;
 
-        socket.emit('register', {
-            postId: id,
-        });
-
-        socket.on('new_comment', data => {
-            const commentsHold = comments;
-
-            setComments([...commentsHold, data]);
-        });
-
-        return function cleanUp() {
-            socket.disconnect();
-            console.log('Socket fechado');
-        };
-    }, []);
-
-    useEffect(() => {
         fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
-        // fetch(`http://localhost:3000/api/post/${id}`, {
+            // fetch(`http://localhost:3000/api/post/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,12 +74,38 @@ export default function Post() {
             .then(response => {
                 setPost(response.response.post);
                 setComments(response.response.post.comments);
-                setLoadPotsState(false);
+            })
+            .finally(() => {
+                socket = io('https://anotaifsp.herokuapp.com');
+                // socket = io('http://localhost:3000');
+                console.log('Socket Aberto');
+
+                socket.on('connect', () => {
+                    socket.emit('register', {
+                        socketId: socket.id,
+                        postId: id,
+                    });
+
+                    socket.on('new_comment', data => {
+                        let commentsHold = comments;
+                        setComments([...commentsHold, data]);
+                    });
+                });
             })
             .catch(err => {
                 console.log(err);
             });
-    }, [loadPostsState]);
+
+        return function cleanUp() {
+            socket.emit('unregister', {
+                socketId: socket.id,
+                postId: id,
+            });
+
+            console.log('Socket fechado');
+            socket.disconnect();
+        };
+    }, []);
 
     function setMenuMobile() {
         setMenuMobileState(!menuMobileState);
