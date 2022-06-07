@@ -74,8 +74,9 @@ export default function Post() {
             .then(response => {
                 setPost(response.response.post);
                 setComments(response.response.post.comments);
+                return response.response.post.comments
             })
-            .then(() => {
+            .then(commentsExists => {
                 socket = io('https://anotaifsp.herokuapp.com');
                 // socket = io('http://localhost:3000');
                 console.log('Socket Aberto');
@@ -87,7 +88,8 @@ export default function Post() {
                     });
                     
                     socket.on('new_comment', data => {
-                        let commentsHold = comments;
+                        let commentsHold = commentsExists;
+                        console.log(commentsExists)
                         setComments([...commentsHold, data]);
                     });
                 });
