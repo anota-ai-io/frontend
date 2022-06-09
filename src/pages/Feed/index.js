@@ -35,9 +35,6 @@ export default function Feed() {
     const [menuMobileState, setMenuMobileState] = useState(false);
     const [loadPostsState, setLoadPotsState] = useState(true);
 
-    const [computedLikeState, setComputedLikeState] = useState({});
-    const [likes, setLikes] = useState({});
-
     useEffect(() => {
         const cookies = parseCookies();
         // console.log(cookies['anotaai.token'])
@@ -50,6 +47,7 @@ export default function Feed() {
         })
             .then(response => response.json())
             .then(response => {
+                console.log(response.response.posts)
                 setPosts(response.response.posts);
             })
             .then(response => {
@@ -60,32 +58,20 @@ export default function Feed() {
             });
     }, [loadPostsState]);
 
-    useEffect(() => {
-        let likeHold = likes;
-        for (const post of posts) {
-            likeHold[post.id] = {
-                counter: post.likesCounter,
-                liked: post.liked,
-            };
-            setLikes(likeHold);
-        }
-        console.log(likeHold);
-    }, [posts]);
-
     function setMenuMobile() {
         setMenuMobileState(!menuMobileState);
     }
 
-    const computeLikePost = async id => {
+    const computeLikePost = async post => {
         const cookies = parseCookies();
+        const id = post.id
         let method = "POST"
 
-        if (likes[id] && likes[id].liked) {
+        if (post.liked) {
             method = "DELETE"
         }
         // console.log(cookies['anotaai.token']);
-        console.log('==============');
-        await fetch('https://anotaifsp.herokuapp.com/api/like', {
+        const response = await fetch('https://anotaifsp.herokuapp.com/api/like', {
             method: method,
             headers: {
                 'Content-Type': 'application/json',
@@ -95,21 +81,19 @@ export default function Feed() {
                 postId: id,
             }),
         })
-            .then(response => response.json())
-            .then(response => {
-                let likesHold = likes;
-                likesHold[response.response.post.id] = {
-                    counter: response.response.post.likesCounter,
-                    liked: true,
-                };
 
-                setLikes(likesHold);
+        const postData = await response.json()
+        if (postData.status === "ok") {
+            const postIndex = posts.findIndex((post) => post.id === id)
+            
+            if (postIndex >= 0) {
+                const allPosts = [...posts]
                 
-                setLoadPostsState(true);
-            })
-            .catch(err => {
-                console.log(err);
-            });
+                allPosts[postIndex] = {...allPosts[postIndex], likesCounter: !allPosts[postIndex].liked ? (allPosts[postIndex].likesCounter + 1) : (allPosts[postIndex].likesCounter - 1), liked: !allPosts[postIndex].liked}
+                
+                setPosts(allPosts)
+            }
+        }
     };
 
     function formatDate(date) {
@@ -216,20 +200,20 @@ export default function Feed() {
                             {post.commentsCounter}{' '}
                         </span>
                         <span className="flex flex-row">
-                            {likes[post.id] && likes[post.id].liked ? (
+                            {post.liked ? (
                                 <img
                                     src={HeartSelected}
                                     className="mr-2 cursor-pointer"
-                                    onClick={() => computeLikePost(post.id)}
+                                    onClick={() => computeLikePost(post)}
                                 />
                             ) : (
                                 <img
                                     src={Hearts}
                                     className="mr-2 cursor-pointer"
-                                    onClick={() => computeLikePost(post.id)}
+                                    onClick={() => computeLikePost(post)}
                                 />
                             )}{' '}
-                            {likes[post.id] && likes[post.id].counter}{' '}
+                            {post.likesCounter}{' '}
                         </span>
                         <span className="flex flex-row">
                             <img src={Share2} className="mr-2" />{' '}
