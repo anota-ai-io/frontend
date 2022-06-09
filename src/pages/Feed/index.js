@@ -78,10 +78,15 @@ export default function Feed() {
 
     const computeLikePost = async id => {
         const cookies = parseCookies();
+        let method = "POST"
+
+        if (likes[id] && likes[id].liked) {
+            method = "DELETE"
+        }
         // console.log(cookies['anotaai.token']);
         console.log('==============');
         await fetch('https://anotaifsp.herokuapp.com/api/like', {
-            method: 'POST',
+            method: method,
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
@@ -99,6 +104,8 @@ export default function Feed() {
                 };
 
                 setLikes(likesHold);
+                
+                setLoadPostsState(true);
             })
             .catch(err => {
                 console.log(err);
