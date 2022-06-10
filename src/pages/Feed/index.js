@@ -1,5 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useDebugValue, useEffect, useState, useContext, useRef } from 'react';
+import React, {
+    useDebugValue,
+    useEffect,
+    useState,
+    useContext,
+    useRef,
+} from 'react';
 
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies, destroyCookie } from 'nookies';
@@ -17,8 +23,7 @@ import Hearts from '../../assets/heart.svg';
 import HeartSelected from '../../assets/heart_selected.svg';
 import Share2 from '../../assets/share-2.svg';
 import xClose from '../../assets/x.svg';
-import { LogoutIcon, ArrowLeftIcon } from '@heroicons/react/outline';
-
+import { LogoutIcon } from '@heroicons/react/outline';
 
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -94,7 +99,7 @@ export default function Feed() {
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response.response.posts)
+                console.log(response.response.posts);
                 setPosts(response.response.posts);
             })
             .then(response => {
@@ -115,39 +120,48 @@ export default function Feed() {
 
     function logOut() {
         destroyCookie(undefined, 'anotaai.token');
-        navigate("/login")
+        navigate('/login');
     }
 
     const computeLikePost = async post => {
         const cookies = parseCookies();
-        const id = post.id
-        let method = "POST"
+        const id = post.id;
+        let method = 'POST';
 
         if (post.liked) {
-            method = "DELETE"
+            method = 'DELETE';
         }
         // console.log(cookies['anotaai.token']);
-        const response = await fetch('https://anotaifsp.herokuapp.com/api/like', {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${cookies['anotaai.token']}`,
+        const response = await fetch(
+            'https://anotaifsp.herokuapp.com/api/like',
+            {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${cookies['anotaai.token']}`,
+                },
+                body: JSON.stringify({
+                    postId: id,
+                }),
             },
-            body: JSON.stringify({
-                postId: id,
-            }),
-        })
+        );
 
-        const postData = await response.json()
-        if (postData.status === "ok") {
-            const postIndex = posts.findIndex((post) => post.id === id)
-            
+        const postData = await response.json();
+        if (postData.status === 'ok') {
+            const postIndex = posts.findIndex(post => post.id === id);
+
             if (postIndex >= 0) {
-                const allPosts = [...posts]
-                
-                allPosts[postIndex] = {...allPosts[postIndex], likesCounter: !allPosts[postIndex].liked ? (allPosts[postIndex].likesCounter + 1) : (allPosts[postIndex].likesCounter - 1), liked: !allPosts[postIndex].liked}
-                
-                setPosts(allPosts)
+                const allPosts = [...posts];
+
+                allPosts[postIndex] = {
+                    ...allPosts[postIndex],
+                    likesCounter: !allPosts[postIndex].liked
+                        ? allPosts[postIndex].likesCounter + 1
+                        : allPosts[postIndex].likesCounter - 1,
+                    liked: !allPosts[postIndex].liked,
+                };
+
+                setPosts(allPosts);
             }
         }
     };
@@ -336,7 +350,7 @@ export default function Feed() {
                         </nav>
                     </div>
 
-                    <div className='flex justify-between items-center'>
+                    <div className="flex justify-between items-center">
                         <Link
                             to={`/perfil/${UserContext.username}`}
                             className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
@@ -362,11 +376,10 @@ export default function Feed() {
                                 </div>
                             </div>
                         </Link>
-                        <div className='cursor-pointer' onClick={logOut}>
+                        <div className="cursor-pointer" onClick={logOut}>
                             <LogoutIcon className="w-11 h-11 mr-4" />
                         </div>
                     </div>
-                    
 
                     <div className="p-6">
                         <button
@@ -377,7 +390,7 @@ export default function Feed() {
                             Publicação
                         </button>
                         {showModal ? (
-                            <Modal closeModal={closeModal}> 
+                            <Modal closeModal={closeModal}>
                                 <form
                                     onSubmit={handleSubmit(handleSubmitPosts)}
                                     className="justify-center text-center"
@@ -420,7 +433,7 @@ export default function Feed() {
                                                 {images.length > 1
                                                     ? images.length + ' imagens'
                                                     : images.length +
-                                                        ' imagem'}{' '}
+                                                      ' imagem'}{' '}
                                             </span>
                                         </div>
                                     </div>

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 const { io } = require('socket.io-client');
 
@@ -23,9 +23,13 @@ import Hearts from '../../assets/heart.svg';
 import Share2 from '../../assets/share-2.svg';
 import xClose from '../../assets/x.svg';
 import { Link, useParams } from 'react-router-dom';
-import { CheckIcon } from '@heroicons/react/outline';
+import { CheckIcon, LogoutIcon } from '@heroicons/react/outline';
+import AuthContext from '../../contexts/auth';
+import Image from '../../assets/image.svg';
 
 export default function Post() {
+    const UserContext = useContext(AuthContext);
+
     const { id } = useParams();
     const cookies = parseCookies();
     const [post, setPost] = useState();
@@ -33,8 +37,51 @@ export default function Post() {
     const [loadPostsState, setLoadPotsState] = useState(true);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState();
+    const [showModal, setShowModal] = useState(false);
 
     const { register, handleSubmit, reset } = useForm({});
+    const [images, setImages] = useState([]);
+
+    function closeModal() {
+        setShowModal(false);
+    }
+
+    const handleSubmitPosts = async data => {
+        const cookies = parseCookies();
+        const formData = new FormData();
+        formData.append('content', data.content);
+        formData.append('hashtags', JSON.stringify(['hastagh1', 'hasshtag2']));
+        images.forEach(img => formData.append('images', img));
+
+        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${cookies['anotaai.token']}`,
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                setShowModal(false);
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+    };
+
+    const hiddenFileInput = useRef(null);
+
+    function chooseImage(event) {
+        hiddenFileInput.current.click();
+    }
+
+    const handleChange = event => {
+        const formData = new FormData();
+        const filesXmlArray = Array.from(event.target.files);
+        filesXmlArray.forEach(file => formData.append('files', file));
+        console.log(filesXmlArray);
+        setImages(filesXmlArray);
+    };
 
     const comment = async data => {
         await fetch('https://anotaifsp.herokuapp.com/api/comment', {
@@ -123,6 +170,11 @@ export default function Post() {
         return data;
     }
 
+    function logOut() {
+        destroyCookie(undefined, 'anotaai.token');
+        navigate('/login');
+    }
+
     return (
         <>
             <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-12 overflow-hidden">
@@ -169,70 +221,117 @@ export default function Post() {
                                             </span>
                                         </Link>
                                     </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/explore"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Globe} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                EXPLORAR
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/notifications"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Bell} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                NOTIFICAÇÕES
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/chat"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Mail} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MENSAGENS
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/more"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img
-                                                src={PlusSquare}
-                                                className="mr-5"
-                                            />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MAIS
-                                            </span>
-                                        </Link>
-                                    </li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
 
-                    <div className="row-span-1 flex flex-row justify-between">
+                    <div className="flex justify-between items-center">
                         <Link
                             to={`/perfil/${UserContext.username}`}
-                            className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom p-6 md:p-12 lg:p-6 "
+                            className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
                         >
-                            <h2 className="font-extrabold text-lg">Fulano</h2>
-                            <h3 className="text-base">@Fulano</h3>
+                            <div className="row-span-1 flex flex-row  p-2 items-center">
+                                <div className="md:ml-0 col-span-2 row-span-6 mr-4 m">
+                                    <div className="flex items-center justify-center">
+                                        <div className="border-2 rounded-full">
+                                            <img
+                                                src={UserContext.profilePicture}
+                                                className="rounded-full w-16"
+                                            ></img>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 className="font-extrabold text-lg">
+                                        {UserContext.name}
+                                    </h2>
+                                    <h3 className="text-base">
+                                        {UserContext.username}
+                                    </h3>
+                                </div>
+                            </div>
                         </Link>
+                        <div className="cursor-pointer" onClick={logOut}>
+                            <LogoutIcon className="w-11 h-11 mr-4" />
+                        </div>
                     </div>
 
                     <div className="p-6">
-                        <Modal />
+                        <button
+                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
+                            type="button"
+                            onClick={() => setShowModal(true)}
+                        >
+                            Publicação
+                        </button>
+                        {showModal ? (
+                            <Modal closeModal={closeModal}>
+                                <form
+                                    onSubmit={handleSubmit(handleSubmitPosts)}
+                                    className="justify-center text-center"
+                                >
+                                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                        <h3 className="text-3xl font-semibold">
+                                            Nova Publicação
+                                        </h3>
+                                        <button
+                                            className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                            onClick={closeModal}
+                                        >
+                                            <span className="text-black opacity-5 h-6 w-6 text-4xl block outline-none focus:outline-none">
+                                                X
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div className="relative flex-auto">
+                                        <textarea
+                                            placeholder="  Escreva sua públicação..."
+                                            {...register('content', {})}
+                                            className="w-full h-96 m-0 md:h-64"
+                                        />
+
+                                        <div className="flex flex-row justify-center md:justify-start mt-5">
+                                            <img
+                                                className="mr-5"
+                                                src={Image}
+                                                onClick={chooseImage}
+                                            />
+                                            <input
+                                                type="file"
+                                                ref={hiddenFileInput}
+                                                onChange={handleChange}
+                                                id="file-upload"
+                                                className="hidden"
+                                                multiple
+                                            />
+                                            <span>
+                                                {images.length > 1
+                                                    ? images.length + ' imagens'
+                                                    : images.length +
+                                                      ' imagem'}{' '}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {/*footer*/}
+                                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                        <button
+                                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={closeModal}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="submit"
+                                        >
+                                            Publicar
+                                        </button>
+                                    </div>
+                                </form>
+                            </Modal>
+                        ) : null}
                     </div>
                 </div>
 
