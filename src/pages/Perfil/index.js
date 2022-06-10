@@ -55,15 +55,20 @@ export default function Perfil() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const [image, setImage] = useState([]);
+    const [image, setImage] = useState(false);
 
     const handleSubmitUser = async data => {
         const cookies = parseCookies();
         const formData = new FormData();
-        formData.append('bio', data.bio);
-        // formData.append('profilePicture', image);
-        console.log(JSON.stringify(formData))
+        if ("" !== data.bio) {
+            formData.append('bio', data.bio);
+        }
+
+        if (image) {
+            formData.append('profilePicture', image);
+        }
         
+        // console.log(JSON.stringify(formData))
         console.log(formData)
         
         fetch('https://anotaifsp.herokuapp.com/api/user', {
@@ -75,6 +80,7 @@ export default function Perfil() {
         })
             .then(response => response.json())
             .then(data => {
+                setUser(data.response.user);
                 setShowModal(false);
             })
             .catch(err => {
@@ -90,9 +96,7 @@ export default function Perfil() {
 
     const handleChange = event => {
         const formData = new FormData();
-        const filesXmlArray = Array.from(event.target.files);
-        filesXmlArray.forEach(file => formData.append('files', file[0]));
-        setImage(filesXmlArray);
+        setImage(event.target.files[0]);
     };
 
     function closeModal() {
@@ -184,7 +188,7 @@ export default function Perfil() {
                                         <textarea
                                             placeholder="  Escreva sua bio..."
                                             {...register('bio', {})}
-                                            className="w-full h-96 m-0 md:h-64"
+                                            className="w-full h-40 m-0 md:h-40"
                                         />
 
                                         <div className="flex flex-row justify-center md:justify-start mt-5">
@@ -201,10 +205,9 @@ export default function Perfil() {
                                                 className="hidden"
                                             />
                                             <span>
-                                                {image.length > 1
-                                                    ? image.length + ' imagens'
-                                                    : image.length +
-                                                        ' imagem'}{' '}
+                                                {image
+                                                    ? 1 + ' imagem'
+                                                    : 'Adicionar imagem'}{' '}
                                             </span>
                                         </div>
                                     </div>
