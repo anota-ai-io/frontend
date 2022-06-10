@@ -11,6 +11,9 @@ const Perfil = React.lazy(() => import('./pages/Perfil'));
 const Chat = React.lazy(() => import('./pages/Chat'));
 const Post = React.lazy(() => import('./pages/Post'));
 
+const FeedLuan = React.lazy(() => import('./pages/FeedDebug/Luan'));
+const FeedRhenan = React.lazy(() => import('./pages/FeedDebug/Rhenan'));
+
 export default function Routes() {
     return (
         <BrowserRouter>
@@ -57,6 +60,26 @@ export default function Routes() {
                         element={
                             <ProtectedRoute
                                 component={Perfil}
+                                redirect="/login"
+                            />
+                        }
+                    />
+
+                    {/* Debug de Feed */}
+                    <Route
+                        path="/feed/luan"
+                        element={
+                            <ProtectedRoute
+                                component={FeedLuan}
+                                redirect="/login"
+                            />
+                        }
+                    />
+                    <Route
+                        path="/feed/rhenan"
+                        element={
+                            <ProtectedRoute
+                                component={FeedRhenan}
                                 redirect="/login"
                             />
                         }
