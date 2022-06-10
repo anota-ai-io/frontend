@@ -57,16 +57,16 @@ export default function Perfil() {
     } = useForm();
     const [image, setImage] = useState([]);
 
-    const handleSubmitPosts = async data => {
+    const handleSubmitUser = async data => {
         const cookies = parseCookies();
         const formData = new FormData();
         formData.append('bio', data.bio);
-        formData.append('profilePicture', image);
+        // formData.append('profilePicture', image);
         console.log(JSON.stringify(formData))
         
         console.log(formData)
         
-        await fetch('https://anotaifsp.herokuapp.com/api/user', {
+        fetch('https://anotaifsp.herokuapp.com/api/user', {
             method: 'PATCH',
             headers: {
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
@@ -164,7 +164,7 @@ export default function Perfil() {
                     {showModal ? (
                             <Modal closeModal={closeModal}>
                                 <form
-                                    onSubmit={handleSubmit(handleSubmitPosts)}
+                                    onSubmit={handleSubmit(handleSubmitUser)}
                                     className="justify-center text-center"
                                 >
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
