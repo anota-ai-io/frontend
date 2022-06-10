@@ -293,60 +293,13 @@ export default function Feed() {
                                             </span>
                                         </Link>
                                     </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/explore"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Globe} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                EXPLORAR
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/notifications"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Bell} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                NOTIFICAÇÕES
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/chat"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Mail} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MENSAGENS
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/more"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img
-                                                src={PlusSquare}
-                                                className="mr-5"
-                                            />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MAIS
-                                            </span>
-                                        </Link>
-                                    </li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
 
                     <Link
-                        to="/perfil"
+                        to={`/perfil/${UserContext.username}`}
                         className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
                     >
                         <div className="row-span-1 flex flex-row  p-2 items-center">

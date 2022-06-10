@@ -1,18 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useDebugValue, useEffect, useState, useContext } from 'react';
+import React, { useDebugValue, useEffect, useState, useContext, useRef } from 'react';
 
 // import ComponentSkeleton from '../../components/Skeleton/index.js';
-import { parseCookies } from 'nookies';
+import { parseCookies, destroyCookie } from 'nookies';
 import Modal from '../../components/Modal';
 
 import LogoIcon from '../../assets/logo_icon.svg';
 import Logo from '../../assets/logo.png';
-import User1 from '../../assets/user1.svg';
-import Bell from '../../assets/bell.svg';
-import Globe from '../../assets/globe.svg';
 import Home from '../../assets/home.svg';
-import Mail from '../../assets/mail.svg';
-import PlusSquare from '../../assets/plus-square.svg';
 
 import Menu from '../../assets/menu.svg';
 
@@ -22,8 +17,14 @@ import Hearts from '../../assets/heart.svg';
 import HeartSelected from '../../assets/heart_selected.svg';
 import Share2 from '../../assets/share-2.svg';
 import xClose from '../../assets/x.svg';
+import { LogoutIcon, ArrowLeftIcon } from '@heroicons/react/outline';
+
 
 import { Link, useNavigate } from 'react-router-dom';
+
+import Image from '../../assets/image.svg';
+
+import { useForm } from 'react-hook-form';
 
 import AuthContext from '../../contexts/auth';
 
@@ -31,9 +32,55 @@ export default function Feed() {
     const navigate = useNavigate();
     const UserContext = useContext(AuthContext);
 
+    const [showModal, setShowModal] = useState(false);
+
     const [posts, setPosts] = useState([]);
     const [menuMobileState, setMenuMobileState] = useState(false);
     const [loadPostsState, setLoadPotsState] = useState(true);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const [images, setImages] = useState([]);
+
+    const handleSubmitPosts = async data => {
+        const cookies = parseCookies();
+        const formData = new FormData();
+        formData.append('content', data.content);
+        formData.append('hashtags', JSON.stringify(['hastagh1', 'hasshtag2']));
+        images.forEach(img => formData.append('images', img));
+
+        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${cookies['anotaai.token']}`,
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                setShowModal(false);
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+    };
+
+    const hiddenFileInput = useRef(null);
+
+    function chooseImage(event) {
+        hiddenFileInput.current.click();
+    }
+
+    const handleChange = event => {
+        const formData = new FormData();
+        const filesXmlArray = Array.from(event.target.files);
+        filesXmlArray.forEach(file => formData.append('files', file));
+        console.log(filesXmlArray);
+        setImages(filesXmlArray);
+    };
 
     useEffect(() => {
         const cookies = parseCookies();
@@ -60,6 +107,15 @@ export default function Feed() {
 
     function setMenuMobile() {
         setMenuMobileState(!menuMobileState);
+    }
+
+    function closeModal() {
+        setShowModal(false);
+    }
+
+    function logOut() {
+        destroyCookie(undefined, 'anotaai.token');
+        navigate("/login")
     }
 
     const computeLikePost = async post => {
@@ -106,7 +162,7 @@ export default function Feed() {
             <div key={post.id} className="row-span-1 border grid grid-cols-12">
                 <div className="ml-2 md:ml-0 col-span-2 row-span-6">
                     <div
-                        className="flex items-center justify-center mt-5"
+                        className="flex items-center justify-center mt-5 cursor-pointer"
                         onClick={() =>
                             navigate(`/perfil/${post.user.username}`)
                         }
@@ -179,7 +235,7 @@ export default function Feed() {
                         className={
                             loadPostsState
                                 ? 'animate-pulse flex space-x-4'
-                                : 'flex items-center justify-center mt-5 ml-2'
+                                : 'flex items-center justify-center m-6'
                         }
                     >
                         {loadPostsState ? (
@@ -231,12 +287,12 @@ export default function Feed() {
 
     return (
         <>
-            <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-12 overflow-hidden">
+            <div className="h-screen w-screen grid grid-cols-1 md:grid-cols-10 overflow-hidden">
                 {/* ESQUERDA - MENU E USUÁRIO */}
                 <div
                     className={
                         menuMobileState
-                            ? 'col-span-1 animacao-padrao'
+                            ? 'col-span-2 animacao-padrao'
                             : 'hidden md:grid col-span-2 border-t-4'
                     }
                 >
@@ -275,86 +331,118 @@ export default function Feed() {
                                             </span>
                                         </Link>
                                     </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/explore"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Globe} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                EXPLORAR
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/notifications"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Bell} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                NOTIFICAÇÕES
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/chat"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img src={Mail} className="mr-5" />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MENSAGENS
-                                            </span>
-                                        </Link>
-                                    </li>
-                                    <li className="mt-5">
-                                        <Link
-                                            to="/more"
-                                            className="text-xl flex flex-row"
-                                        >
-                                            <img
-                                                src={PlusSquare}
-                                                className="mr-5"
-                                            />
-                                            <span className="sm:block md:hidden lg:block">
-                                                MAIS
-                                            </span>
-                                        </Link>
-                                    </li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
 
-                    <Link
-                        to="/perfil"
-                        className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
-                    >
-                        <div className="row-span-1 flex flex-row  p-2 items-center">
-                            <div className="md:ml-0 col-span-2 row-span-6 mr-4 m">
-                                <div className="flex items-center justify-center">
-                                    <div className="border-2 rounded-full">
-                                        <img
-                                            src={UserContext.profilePicture}
-                                            className="rounded-full w-16"
-                                        ></img>
+                    <div className='flex justify-between items-center'>
+                        <Link
+                            to={`/perfil/${UserContext.username}`}
+                            className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
+                        >
+                            <div className="row-span-1 flex flex-row  p-2 items-center">
+                                <div className="md:ml-0 col-span-2 row-span-6 mr-4 m">
+                                    <div className="flex items-center justify-center">
+                                        <div className="border-2 rounded-full">
+                                            <img
+                                                src={UserContext.profilePicture}
+                                                className="rounded-full w-16"
+                                            ></img>
+                                        </div>
                                     </div>
                                 </div>
+                                <div>
+                                    <h2 className="font-extrabold text-lg">
+                                        {UserContext.name}
+                                    </h2>
+                                    <h3 className="text-base">
+                                        {UserContext.username}
+                                    </h3>
+                                </div>
                             </div>
-                            <div>
-                                <h2 className="font-extrabold text-lg">
-                                    {UserContext.name}
-                                </h2>
-                                <h3 className="text-base">
-                                    {UserContext.username}
-                                </h3>
-                            </div>
+                        </Link>
+                        <div className='cursor-pointer' onClick={logOut}>
+                            <LogoutIcon className="w-11 h-11 mr-4" />
                         </div>
-                    </Link>
+                    </div>
+                    
 
                     <div className="p-6">
-                        <Modal />
+                        <button
+                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
+                            type="button"
+                            onClick={() => setShowModal(true)}
+                        >
+                            Publicação
+                        </button>
+                        {showModal ? (
+                            <Modal closeModal={closeModal}> 
+                                <form
+                                    onSubmit={handleSubmit(handleSubmitPosts)}
+                                    className="justify-center text-center"
+                                >
+                                    <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                        <h3 className="text-3xl font-semibold">
+                                            Nova Publicação
+                                        </h3>
+                                        <button
+                                            className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                                            onClick={closeModal}
+                                        >
+                                            <span className="text-black opacity-5 h-6 w-6 text-4xl block outline-none focus:outline-none">
+                                                X
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div className="relative flex-auto">
+                                        <textarea
+                                            placeholder="  Escreva sua públicação..."
+                                            {...register('content', {})}
+                                            className="w-full h-96 m-0 md:h-64"
+                                        />
+
+                                        <div className="flex flex-row justify-center md:justify-start mt-5">
+                                            <img
+                                                className="mr-5"
+                                                src={Image}
+                                                onClick={chooseImage}
+                                            />
+                                            <input
+                                                type="file"
+                                                ref={hiddenFileInput}
+                                                onChange={handleChange}
+                                                id="file-upload"
+                                                className="hidden"
+                                                multiple
+                                            />
+                                            <span>
+                                                {images.length > 1
+                                                    ? images.length + ' imagens'
+                                                    : images.length +
+                                                        ' imagem'}{' '}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    {/*footer*/}
+                                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                        <button
+                                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="button"
+                                            onClick={closeModal}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            type="submit"
+                                        >
+                                            Publicar
+                                        </button>
+                                    </div>
+                                </form>
+                            </Modal>
+                        ) : null}
                     </div>
                 </div>
 
@@ -385,7 +473,7 @@ export default function Feed() {
                 </div>
 
                 {/* DIREITA -  PESQUISA DE ASSUNTOS E EM ALTA */}
-                <div className="hidden md:grid col-span-4 border-t-4 gap-5">
+                <div className="hidden md:grid col-span-2 border-t-4 gap-5">
                     <div className="row-auto flex justify-center items-center mt-2">
                         <input
                             type="text"

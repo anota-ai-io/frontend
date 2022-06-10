@@ -223,7 +223,7 @@ export default function Post() {
 
                     <div className="row-span-1 flex flex-row justify-between">
                         <Link
-                            to="/perfil"
+                            to={`/perfil/${UserContext.username}`}
                             className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom p-6 md:p-12 lg:p-6 "
                         >
                             <h2 className="font-extrabold text-lg">Fulano</h2>
