@@ -266,7 +266,10 @@ export default function Feed() {
 
                 <div className="col-span-8 row-span-1 mb-5">
                     <div className="flex flex-row items-center justify-between mt-5">
-                        <span className="flex flex-row">
+                        <span
+                            className="flex flex-row"
+                            onClick={() => navigate(`/post/${post.id}`)}
+                        >
                             <img src={Comments} className="mr-2" />{' '}
                             {post.commentsCounter}{' '}
                         </span>
