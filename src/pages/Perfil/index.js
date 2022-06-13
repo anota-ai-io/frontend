@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { LogoutIcon, ArrowLeftIcon } from '@heroicons/react/outline';
 import { Link, useParams } from 'react-router-dom';
 import { parseCookies } from 'nookies';
 import Modal from '../../components/Modal';
 import { useForm } from 'react-hook-form';
 import Image from '../../assets/image.svg';
+import AuthContext from '../../contexts/auth';
 
 export default function Perfil() {
     const { username } = useParams();
+    const UserContext = useContext(AuthContext);
 
     const cookies = parseCookies();
 
@@ -121,13 +123,17 @@ export default function Perfil() {
                                 </p>
                             </div>
                         </div>
-                        <button
-                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
-                            type="button"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Editar Perfil
-                        </button>
+                        {UserContext.username === username ? (
+                            <button
+                                className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
+                                type="button"
+                                onClick={() => setShowModal(true)}
+                            >
+                                Editar Perfil
+                            </button>
+                        ) : (
+                            <div></div>
+                        )}
                     </div>
                     {showModal ? (
                         <Modal closeModal={closeModal}>
