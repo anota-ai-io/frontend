@@ -233,9 +233,9 @@ export default function Feed() {
                         {post.hashtags.map(hashtag => (
                             <span
                                 key={hashtag.id}
-                                className="text-sm text-gray-400 whitespace-pre-line break-all"
+                                className="text-sm text-gray-400 whitespace-pre-line break-all mr-2"
                             >
-                                #{hashtag.name}{' '}
+                                {hashtag.name}
                             </span>
                         ))}
                     </div>
