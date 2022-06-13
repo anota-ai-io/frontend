@@ -67,6 +67,7 @@ export default function Feed() {
             .then(response => response.json())
             .then(data => {
                 setShowModal(false);
+                setLoadPotsState(true);
             })
             .catch(err => {
                 console.log(err.message);
