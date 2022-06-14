@@ -14,6 +14,7 @@ import Globe from '../../assets/globe.svg';
 import Home from '../../assets/home.svg';
 import Mail from '../../assets/mail.svg';
 import PlusSquare from '../../assets/plus-square.svg';
+import HeartSelected from '../../assets/heart_selected.svg';
 
 import Menu from '../../assets/menu.svg';
 
@@ -174,6 +175,37 @@ export default function Post() {
         destroyCookie(undefined, 'anotaai.token');
         navigate('/login');
     }
+
+    const computeLikePost = async post => {
+        const cookies = parseCookies();
+        const id = post.id;
+        let method = 'POST';
+
+        if (post.liked) {
+            method = 'DELETE';
+        }
+        // console.log(cookies['anotaai.token']);
+        let response = await fetch('https://anotaifsp.herokuapp.com/api/like', {
+            method: method,
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${cookies['anotaai.token']}`,
+            },
+            body: JSON.stringify({
+                postId: id,
+            }),
+        });
+
+        console.log(response);
+        console.log(post);
+        response = await response.json();
+
+        let postHold = post;
+        postHold.liked = !post.liked;
+        postHold.likesCounter = response.response.post.likesCounter;
+
+        setPost({ ...postHold });
+    };
 
     return (
         <>
@@ -443,10 +475,23 @@ export default function Post() {
                                             {post.commentsCounter}{' '}
                                         </span>
                                         <span className="flex flex-row">
-                                            <img
-                                                src={Hearts}
-                                                className="mr-2"
-                                            />{' '}
+                                            {post.liked ? (
+                                                <img
+                                                    src={HeartSelected}
+                                                    className="mr-2 cursor-pointer"
+                                                    onClick={() =>
+                                                        computeLikePost(post)
+                                                    }
+                                                />
+                                            ) : (
+                                                <img
+                                                    src={Hearts}
+                                                    className="mr-2 cursor-pointer"
+                                                    onClick={() =>
+                                                        computeLikePost(post)
+                                                    }
+                                                />
+                                            )}{' '}
                                             {post.likesCounter}{' '}
                                         </span>
                                         <span className="flex flex-row">
