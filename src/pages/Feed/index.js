@@ -7,7 +7,7 @@ import React, {
     useRef,
 } from 'react';
 
-// import ComponentSkeleton from '../../components/Skeleton/index.js';
+// import async ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies, destroyCookie } from 'nookies';
 import Modal from '../../components/Modal';
 
@@ -119,8 +119,8 @@ export default function Feed() {
         setShowModal(false);
     }
 
-    function logOut() {
-        destroyCookie(undefined, 'anotaai.token');
+    async function logOut() {
+        await destroyCookie(undefined, 'anotaai.token');
         navigate('/login');
     }
 

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 const { io } = require('socket.io-client');
 
-import { parseCookies } from 'nookies';
+import { parseCookies, destroyCookie } from 'nookies';
 import Modal from '../../components/Modal';
 import { Carousel } from '../../components/Carousel/index';
 
@@ -171,8 +171,8 @@ export default function Post() {
         return data;
     }
 
-    function logOut() {
-        destroyCookie(undefined, 'anotaai.token');
+    async function logOut() {
+        await destroyCookie(undefined, 'anotaai.token');
         navigate('/login');
     }
 
