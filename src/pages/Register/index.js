@@ -39,7 +39,7 @@ export default function Register() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    if (data.status == 201) {
+                    if (data.status == 'ok') {
                         navigate('/login');
                     } else {
                         console.log(data.message);
