@@ -215,7 +215,7 @@ export default function Post() {
                     className={
                         menuMobileState
                             ? 'col-span-1 animacao-padrao'
-                            : 'hidden md:grid col-span-2 border-t-4'
+                            : 'hidden md:grid col-span-2'
                     }
                 >
                     <div className="flex flex-row ml-2 mt-2 justify-between md:ml-0 md:row-span-1 md:block md:p-14 lg:p-5">
@@ -258,37 +258,6 @@ export default function Post() {
                         </nav>
                     </div>
 
-                    <div className="flex justify-between items-center">
-                        <Link
-                            to={`/perfil/${UserContext.username}`}
-                            className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
-                        >
-                            <div className="row-span-1 flex flex-row  p-2 items-center">
-                                <div className="md:ml-0 col-span-2 row-span-6 mr-4 m">
-                                    <div className="flex items-center justify-center">
-                                        <div className="border-2 rounded-full">
-                                            <img
-                                                src={UserContext.profilePicture}
-                                                className="rounded-full w-16"
-                                            ></img>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h2 className="font-extrabold text-lg">
-                                        {UserContext.name}
-                                    </h2>
-                                    <h3 className="text-base">
-                                        {UserContext.username}
-                                    </h3>
-                                </div>
-                            </div>
-                        </Link>
-                        <div className="cursor-pointer" onClick={logOut}>
-                            <LogoutIcon className="w-11 h-11 mr-4" />
-                        </div>
-                    </div>
-
                     <div className="p-6">
                         <button
                             className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
@@ -299,29 +268,36 @@ export default function Post() {
                         </button>
                         {showModal ? (
                             <Modal closeModal={closeModal}>
+                                
                                 <form
                                     onSubmit={handleSubmit(handleSubmitPosts)}
                                     className="justify-center text-center"
                                 >
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                        <h3 className="text-3xl font-semibold">
-                                            Nova Publicação
-                                        </h3>
+                                    
                                         <button
                                             className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                             onClick={closeModal}
                                         >
-                                            <span className="text-black opacity-5 h-6 w-6 text-4xl block outline-none focus:outline-none">
-                                                X
+                                            <span className="text-black opacity-50">
+                                                <img src={xClose}/>
                                             </span>
                                         </button>
+                                    
                                     </div>
-                                    <div className="relative flex-auto">
+
+                                    <div className="relative flex-auto p-5 border-b">
+                                        
                                         <textarea
                                             placeholder="  Escreva sua públicação..."
                                             {...register('content', {})}
-                                            className="w-full h-96 m-0 md:h-64"
+                                            className="w-full h-64 m-0 md:h-32"
                                         />
+
+                                    </div>
+
+                                    <div className="flex items-center justify-between p-6 border-solid border-slate-200 rounded-b">
+                                        
 
                                         <div className="flex flex-row justify-center md:justify-start mt-5">
                                             <img
@@ -341,19 +317,10 @@ export default function Post() {
                                                 {images.length > 1
                                                     ? images.length + ' imagens'
                                                     : images.length +
-                                                      ' imagem'}{' '}
+                                                    ' imagem'}{' '}
                                             </span>
                                         </div>
-                                    </div>
-                                    {/*footer*/}
-                                    <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                        <button
-                                            className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                            type="button"
-                                            onClick={closeModal}
-                                        >
-                                            Cancelar
-                                        </button>
+
                                         <button
                                             className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                             type="submit"
@@ -362,9 +329,43 @@ export default function Post() {
                                         </button>
                                     </div>
                                 </form>
+
                             </Modal>
                         ) : null}
                     </div>
+
+                    <div className="flex justify-between items-center">
+                        <Link
+                            to={`/perfil/${UserContext.username}`}
+                            className="flex flex-col sm:items-start md:items-center lg:items-start align-bottom "
+                        >
+                            <div className="row-span-1 flex flex-row  p-2 items-center">
+                                <div className="md:ml-0 col-span-2 row-span-6 mr-2 m">
+                                    <div className="flex items-center justify-center">
+                                        <div className="rounded-full">
+                                            <img
+                                                src={UserContext.profilePicture}
+                                                className="rounded-full w-14"
+                                            ></img>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 className="font-bold text-xs">
+                                        {UserContext.name}
+                                    </h2>
+                                    <h3 className="text-xs">
+                                        @{UserContext.username}
+                                    </h3>
+                                </div>
+                            </div>
+                        </Link>
+                        <div className="cursor-pointer" onClick={logOut}>
+                            <LogoutIcon className="w-4 h-4 mr-2" />
+                        </div>
+                    </div>
+
+                    
                 </div>
 
                 {/* CENTRO - PUBLICAÇÕES E POSTS */}
@@ -372,7 +373,7 @@ export default function Post() {
                     className={
                         menuMobileState
                             ? 'hidden'
-                            : 'col-span-1 md:col-span-6 border-t-4 border-2 h-screen overflow-y-scroll animacao-padrao'
+                            : 'col-span-1 md:col-span-6 h-screen overflow-y-scroll animacao-padrao'
                     }
                 >
                     {/* MENU MOBILE */}
@@ -383,16 +384,7 @@ export default function Post() {
                         <img src={Menu} className=""></img>
                     </div>
 
-                    <div className="row-span-1 border flex text-center justify-center">
-                        <Link to="/feed" className="text-blue-600 font-bold">
-                            Visualizar mais publicações
-                        </Link>
-                    </div>
-
                     {/* LISTA DE PUBLICACOES */}
-                    {/* {
-            loadPostsState ? renderPublicationsAnimated() : renderPublications()
-          } */}
 
                     {post && (
                         <>
@@ -401,13 +393,13 @@ export default function Post() {
                                 className="row-span-1 border grid grid-cols-12"
                             >
                                 <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-                                    <div className="flex items-center justify-center mt-5">
+                                    <div className="flex items-center justify-center mt-6">
                                         {' '}
-                                        <div className="border-2 rounded-full">
+                                        <div className="rounded-full">
                                             {' '}
                                             <img
                                                 src={post.user.profilePicture}
-                                                className="rounded-full w-16"
+                                                className="rounded-full w-14"
                                             ></img>{' '}
                                         </div>{' '}
                                     </div>
@@ -546,16 +538,16 @@ export default function Post() {
                                     className="row-span-1 border grid grid-cols-12"
                                 >
                                     <div className="ml-2 md:ml-0  col-span-2 row-span-6">
-                                        <div className="flex items-center justify-center mt-5">
+                                        <div className="flex items-center justify-center mt-6">
                                             {' '}
-                                            <div className="border-2 rounded-full">
+                                            <div className="rounded-full">
                                                 {' '}
                                                 <img
                                                     src={
                                                         comment.user
                                                             .profilePicture
                                                     }
-                                                    className="rounded-full w-16"
+                                                    className="rounded-full w-14"
                                                 ></img>{' '}
                                             </div>{' '}
                                         </div>
@@ -563,25 +555,25 @@ export default function Post() {
 
                                     <div className=" col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5">
                                         <div className="flex items-center justify-start mt-5 ml-2">
-                                            <span className="text-base md:text-xl">
+                                            <span className="font-bold text-sm md:text-base">
                                                 {' '}
                                                 {comment.user.name}{' '}
                                             </span>
                                         </div>
                                         <div className="flex items-center justify-start mt-5 ml-2">
-                                            <span className="text-sm md:text-lg">
+                                            <span className="text-xs md:text-sm">
                                                 {' '}
                                                 @{comment.user.username}{' '}
                                             </span>
                                         </div>
                                         <div className="hidden md:flex items-center justify-start mt-5 ml-2">
-                                            <span className="text-xs md:text-lg">
+                                            <span className="font-extralight text-gray-400 text-xs md:text-sm">
                                                 {formatDate(comment.createdAt)}
                                             </span>
                                         </div>
                                     </div>
 
-                                    <div className="col-span-9 row-span-1 ">
+                                    <div className="col-span-9 row-span-1 mb-5">
                                         <div className="flex items-center justify-start mt-5 ml-2">
                                             <span className="text-sm whitespace-pre-line break-all">
                                                 {comment.content}
@@ -595,7 +587,7 @@ export default function Post() {
                 </div>
 
                 {/* DIREITA -  PESQUISA DE ASSUNTOS E EM ALTA */}
-                <div className="hidden md:grid col-span-4 border-t-4 gap-5">
+                <div className="hidden md:grid col-span-4 gap-5">
                     <div className="row-auto flex justify-center items-center mt-2">
                         <input
                             type="text"
