@@ -8,7 +8,18 @@ import { useForm } from 'react-hook-form';
 import Image from '../../assets/image.svg';
 import AuthContext from '../../contexts/auth';
 
+import moreHorizontal from '../../assets/more-horizontal.svg';
+import xClose from '../../assets/x.svg';
+import Comments from '../../assets/message-circle.svg';
+import Downloads from '../../assets/download.svg';
+import Share2 from '../../assets/share-2.svg';
+import Hearts from '../../assets/heart.svg';
+import HeartSelected from '../../assets/heart_selected.svg';
+
+import { useNavigate } from 'react-router-dom';
+
 export default function Perfil() {
+    const navigate = useNavigate();
     const { username } = useParams();
     const UserContext = useContext(AuthContext);
 
@@ -100,20 +111,31 @@ export default function Perfil() {
         <>
             {loaded && (
                 <div className="h-screen w-screen overflow-x-hidden">
-                    <div className="w-screen h-1/4 flex justify-between items-center p-4">
-                        <div>
+
+                    <div className='w-screen'>
+                        <div className='md:block mt-5'>
                             <Link to="/feed">
-                                <ArrowLeftIcon className="w-11 h-11 ml-4" />
+                                <ArrowLeftIcon className="w-8 h-8 ml-4" />
                             </Link>
                         </div>
-                        <div className="w-96 border-b flex justify-between items-center border-black p-3">
-                            <div className="border-2 rounded-full mr-12">
+                    </div>
+
+                    <div className="w-screen h-1/4 flex justify-between items-center p-4">
+                        
+                        <div className='hidden md:block'>
+                            <Link to="/feed">
+                                <ArrowLeftIcon className="w-8 h-8 ml-4" />
+                            </Link>
+                        </div>
+
+                        <div className="w-96 border-b flex flex-col md:flex-row justify-evenly items-center border-black p-3">
+                            <div className="rounded-full">
                                 <img
                                     src={user.profilePicture}
-                                    className="rounded-full w-24"
+                                    className="rounded-full w-24 mt-5 mb-5 md:mt-none md:mb-none"
                                 />
                             </div>
-                            <div>
+                            <div className='text-center md:text-left'>
                                 <h1 className="text-lg">{user.name}</h1>
                                 <h3 className="text-sm text-gray-600">
                                     {user.occupation}
@@ -122,10 +144,21 @@ export default function Perfil() {
                                     {user.bio}
                                 </p>
                             </div>
+
+                           
+                            {UserContext.username === username ? (
+                                <div className='md:hidden mt-5' onClick={() => setShowModal(true)}>
+                                    <img src={moreHorizontal}  className="w-11 h-11 "/>
+                                </div>
+                            ) : (
+                                <div></div>
+                            )}
+
                         </div>
+
                         {UserContext.username === username ? (
                             <button
-                                className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
+                                className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao hidden md:block"
                                 type="button"
                                 onClick={() => setShowModal(true)}
                             >
@@ -134,7 +167,9 @@ export default function Perfil() {
                         ) : (
                             <div></div>
                         )}
+
                     </div>
+
                     {showModal ? (
                         <Modal closeModal={closeModal}>
                             <form
@@ -142,17 +177,16 @@ export default function Perfil() {
                                 className="justify-center text-center"
                             >
                                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-3xl font-semibold">
-                                        Editar Perfil do Usuário
-                                    </h3>
+                                    
                                     <button
                                         className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                         onClick={closeModal}
                                     >
-                                        <span className="text-black opacity-5 h-6 w-6 text-4xl block outline-none focus:outline-none">
-                                            X
+                                        <span className="text-black opacity-50 h-6 w-6 text-4xl block outline-none focus:outline-none">
+                                            <img src={xClose}/>
                                         </span>
                                     </button>
+
                                 </div>
                                 <div className="relative flex-auto">
                                     <textarea
@@ -182,7 +216,7 @@ export default function Perfil() {
                                     </div>
                                 </div>
                                 {/*footer*/}
-                                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                <div className="flex mt-10 md:mt-none flex-col-reverse md:flex-row items-center justify-end border-solid border-slate-200 rounded-b">
                                     <button
                                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                         type="button"
@@ -200,16 +234,57 @@ export default function Perfil() {
                             </form>
                         </Modal>
                     ) : null}
-                    <div className="w-screen grid gap-4 grid-cols-1 md:grid-cols-3 p-6">
+
+                    <div className="w-screen grid gap-4 grid-cols-1 mt-10 md:grid-cols-3 p-6">
                         {posts.map(post => (
                             <div className="border border-gray-200 p-7 shadow-xl rounded-lg">
                                 <p className="text-sm text-gray-600 font-sans">
                                     {post.content}
                                 </p>
-                                {post.img}
+                                <img src={post.images[0]} alt="Imagem do post" className='mt-5'/>
+
+                                <div className="flex flex-row items-center justify-between mt-5">
+                                    
+                                    <span
+                                        className="flex flex-row"
+                                        onClick={() => navigate(`/post/${post.id}`)}
+                                    >
+                                        <img src={Comments} className="mr-2" />{' '}
+                                        {post.commentsCounter}{' '}
+                                    </span>
+
+                                    <span className="flex flex-row">
+                                        {post.liked ? (
+                                            <img
+                                                src={HeartSelected}
+                                                className="mr-2 cursor-pointer"
+                                            />
+                                        ) : (
+                                            <img
+                                                src={Hearts}
+                                                className="mr-2 cursor-pointer"
+                                            />
+                                        )}{' '}
+                                        {post.likesCounter}{' '}
+                                    </span>
+
+                                    <span className="flex flex-row">
+                                        <img src={Share2} className="mr-2" />{' '}
+                                        {post.sharesCounter}{' '}
+                                    </span> 
+
+                                    <span className="flex flex-row">
+                                        <img src={Downloads} className="mr-2" />{' '}
+                                        {post.downloadsCounter}{' '}
+                                    </span>
+
+                                </div>
+
                             </div>
+
                         ))}
                     </div>
+
                 </div>
             )}
         </>

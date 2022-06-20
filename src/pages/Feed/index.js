@@ -77,6 +77,27 @@ export default function Feed() {
             });
     };
 
+    const handleDeletePosts = async postId => {
+        const cookies = parseCookies();
+        payload
+        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${cookies['anotaai.token']}`,
+            },
+            body: payload,
+        })
+            .then(response => response.json())
+            .then(data => {
+                setShowModal(false);
+                setLoadPotsState(true);
+            })
+            .catch(err => {
+                console.log(err.message);
+            });
+
+    }
+
     const hiddenFileInput = useRef(null);
 
     function chooseImage(event) {
@@ -223,9 +244,29 @@ export default function Feed() {
                     
                 </div>
 
-                <div id="dropdownDefault" data-dropdown-toggle="dropdown" className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
+                <div onClick={() => setShowModal(true)} className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
                     <img src={moreHorizontal} />
                 </div>
+
+                {showModal ? (
+                    <Modal closeModal={closeModal} >    
+                        <div className='flex flex-col border justify-evenly items-center h-96'>
+                            
+                            <div>
+                                <button className='bg-blue-500 p-2 w-64 h-12 text-white font-bold'>EDITAR</button>
+                            </div>
+                            <div>
+                                <button className='bg-yellow-500 p-2 w-64 h-12 text-white font-bold'>DENUNCIAR</button>
+                            </div>
+                            <div>
+                                <button onClick={() => handleDeletePosts(post.id)} className='bg-red-500 p-2 w-64 h-12 text-white font-bold'>EXCLUIR</button>
+                            </div>
+                            <div>
+                                <button onClick={() => setShowModal(false)} className='bg-green-500 p-2 w-64 h-12 text-white font-bold'>CANCELAR</button>
+                            </div>
+                        </div>
+                    </Modal>
+                ) : null}
 
                 <div
                     className="col-span-9 row-span-1"
