@@ -39,7 +39,7 @@ export default function Home() {
             <img src={HomeOffice} className="h-full"  />
           </div>
         </div>
-        <img src={NuvemFormas} className="w-screen fixed bottom-0 h-20 md:absolute md:h-1/4" />
+        <img src={NuvemFormas} className="w-screen hidden bottom-0 h-20 md:absolute md:h-1/4" />
 
         <div className="mt-64 text-center">
           <h1 className="text-2xl mt-32 font-bold">Públique e interaja nos mais diversos grupos, Anota Aí!</h1>

@@ -25,6 +25,7 @@ import Hearts from '../../assets/heart.svg';
 import HeartSelected from '../../assets/heart_selected.svg';
 import Share2 from '../../assets/share-2.svg';
 import xClose from '../../assets/x.svg';
+import moreHorizontal from '../../assets/more-horizontal.svg'
 import { LogoutIcon } from '@heroicons/react/outline';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -92,7 +93,7 @@ export default function Feed() {
 
     useEffect(() => {
         const cookies = parseCookies();
-        // console.log(cookies['anotaai.token'])
+        console.log(loadPostsState)
         fetch('https://anotaifsp.herokuapp.com/api/feed', {
             method: 'GET',
             headers: {
@@ -177,9 +178,11 @@ export default function Feed() {
     function renderPublications() {
         return posts.map(post => (
             <div key={post.id} className="row-span-1 border grid grid-cols-12">
+                
                 <div className="ml-2 md:ml-0 col-span-2 row-span-6">
+                    
                     <div
-                        className="flex items-center justify-center mt-6 cursor-pointer"
+                        className="flex items-center justify-center mt-3 md:mt-6 cursor-pointer"
                         onClick={() =>
                             navigate(`/perfil/${post.user.username}`)
                         }
@@ -193,10 +196,11 @@ export default function Feed() {
                             ></img>{' '}
                         </div>{' '}
                     </div>
+
                 </div>
 
                 <div
-                    className="cursor-pointer col-span-10 row-span-2 flex justify-self-start md:mt-5 md:mr-5"
+                    className="cursor-pointer col-span-9 row-span-2 flex justify-self-start md:mt-5 md:mr-5"
                     onClick={() => navigate(`/perfil/${post.user.username}`)}
                 >
                     <div className="flex items-center justify-start mt-5 ml-2">
@@ -216,6 +220,11 @@ export default function Feed() {
                             {formatDate(post.createdAt)}
                         </span>
                     </div>
+                    
+                </div>
+
+                <div id="dropdownDefault" data-dropdown-toggle="dropdown" className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
+                    <img src={moreHorizontal} />
                 </div>
 
                 <div
@@ -300,6 +309,7 @@ export default function Feed() {
                         </span>
                     </div>
                 </div>
+
             </div>
         ));
     }
@@ -311,18 +321,18 @@ export default function Feed() {
                 <div
                     className={
                         menuMobileState
-                            ? 'col-span-2 animacao-padrao'
+                            ? 'grid col-span-2 animacao-padrao'
                             : 'hidden md:grid col-span-2'
                     }
                 >
                     <div className="flex flex-row ml-2 mt-2 justify-between md:ml-0 md:row-span-1 md:block md:p-14 lg:p-5">
                         <img
                             src={Logo}
-                            className="sm:block md:hidden lg:block"
+                            className="hidden md:block lg:block"
                         />
                         <img
                             src={LogoIcon}
-                            className="hidden md:block lg:hidden"
+                            className="block md:hidden lg:hidden"
                         />
                         <img
                             src={xClose}
@@ -338,7 +348,7 @@ export default function Feed() {
                     <div className="row-span-6">
                         <nav className="flex flex-col align-center justify-between mt-2">
                             <div className="">
-                                <ul className="flex flex-col justify-around md:pl-16 lg:pl-5 ">
+                                <ul className="flex flex-col justify-around pl-2 md:pl-16 lg:pl-5 ">
                                     <li className="mt-5">
                                         <Link
                                             to="/feed"
@@ -356,7 +366,7 @@ export default function Feed() {
                     </div>
 
 
-                    <div className="p-6">
+                    <div className="mt-5 p-2 md:p-6">
                         
                         <button
                             className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
@@ -367,7 +377,7 @@ export default function Feed() {
                         </button>
 
                         {showModal ? (
-                            <Modal closeModal={closeModal}>
+                            <Modal closeModal={closeModal} >
                                 
                                 <form
                                     onSubmit={handleSubmit(handleSubmitPosts)}
@@ -396,10 +406,10 @@ export default function Feed() {
 
                                     </div>
 
-                                    <div className="flex items-center justify-between p-6 border-solid border-slate-200 rounded-b">
+                                    <div className="flex flex-col md:flex-row items-center justify-between p-6 border-solid border-slate-200 rounded-b">
                                         
 
-                                        <div className="flex flex-row justify-center md:justify-start mt-5">
+                                        <div className="flex flex-row justify-center md:justify-start m-5">
                                             <img
                                                 className="mr-5"
                                                 src={Image}
@@ -422,7 +432,7 @@ export default function Feed() {
                                         </div>
 
                                         <button
-                                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                                            className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none m-5 md:mr-1 md:mb-1 ease-linear transition-all duration-150"
                                             type="submit"
                                         >
                                             Publicar
@@ -445,23 +455,23 @@ export default function Feed() {
                                         <div className="rounded-full">
                                             <img
                                                 src={UserContext.profilePicture}
-                                                className="rounded-full w-14"
+                                                className="rounded-full w-16"
                                             ></img>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <h2 className="font-bold text-xs">
+                                    <h2 className="font-bold text-lg md:text-xs">
                                         {UserContext.name}
                                     </h2>
-                                    <h3 className="text-xs">
+                                    <h3 className="text-base md:text-xs">
                                         {UserContext.username}
                                     </h3>
                                 </div>
                             </div>
                         </Link>
                         <div className="cursor-pointer" onClick={logOut}>
-                            <LogoutIcon className="w-4 h-4 mr-2" />
+                            <LogoutIcon className="w-8 h-8 mr-2 md:w-4 md:h-4 md:mr-2" />
                         </div>
                     </div>
 
