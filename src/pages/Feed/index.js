@@ -40,7 +40,8 @@ export default function Feed() {
     const navigate = useNavigate();
     const UserContext = useContext(AuthContext);
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState(false); 
+    const [showDeletePostModal, setShowDeletePostModal] = useState(false); 
 
     const [posts, setPosts] = useState([]);
     const [menuMobileState, setMenuMobileState] = useState(false);
@@ -244,11 +245,11 @@ export default function Feed() {
                     
                 </div>
 
-                <div onClick={() => setShowModal(true)} className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
+                <div onClick={() => setShowDeletePostModal(true)} className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
                     <img src={moreHorizontal} />
                 </div>
 
-                {showModal ? (
+                {showDeletePostModal ? (
                     <Modal closeModal={closeModal} >    
                         <div className='flex flex-col border justify-evenly items-center h-96'>
                             
@@ -262,7 +263,7 @@ export default function Feed() {
                                 <button onClick={() => handleDeletePosts(post.id)} className='bg-red-500 p-2 w-64 h-12 text-white font-bold'>EXCLUIR</button>
                             </div>
                             <div>
-                                <button onClick={() => setShowModal(false)} className='bg-green-500 p-2 w-64 h-12 text-white font-bold'>CANCELAR</button>
+                                <button onClick={() => setShowDeletePostModal(false)} className='bg-green-500 p-2 w-64 h-12 text-white font-bold'>CANCELAR</button>
                             </div>
                         </div>
                     </Modal>

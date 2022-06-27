@@ -113,7 +113,7 @@ export default function Perfil() {
                 <div className="h-screen w-screen overflow-x-hidden">
 
                     <div className='w-screen'>
-                        <div className='md:block mt-5'>
+                        <div className='md:hidden mt-5'>
                             <Link to="/feed">
                                 <ArrowLeftIcon className="w-8 h-8 ml-4" />
                             </Link>
