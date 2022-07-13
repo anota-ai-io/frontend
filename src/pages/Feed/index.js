@@ -80,17 +80,16 @@ export default function Feed() {
 
     const handleDeletePosts = async postId => {
         const cookies = parseCookies();
-        payload
-        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+        await fetch(`https://anotaifsp.herokuapp.com/api/post/${postId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
             },
-            body: payload,
         })
             .then(response => response.json())
             .then(data => {
-                setShowModal(false);
+                console.log(data)
+                setShowDeletePostModal(false);
                 setLoadPotsState(true);
             })
             .catch(err => {
