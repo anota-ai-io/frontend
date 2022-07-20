@@ -40,6 +40,11 @@ export default function Register() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status == 'ok') {
+                        showNotification({
+                            message: "Foi enviado um email de confirmação para a sua conta",
+                            type: 'sucess',
+                            position: 'top-right',
+                        });
                         navigate('/login');
                     } else {
                         console.log(data.message);
