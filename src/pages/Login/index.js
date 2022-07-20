@@ -4,6 +4,7 @@ import * as yup from 'yup';
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { setCookie } from 'nookies';
+import { showNotification } from '../../utils/notification';
 
 const loginSchema = yup
     .object({
@@ -35,7 +36,17 @@ export default function Login() {
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response.response)
+        console.log("=====================")
+        console.log(response.status)
+        if (response.status == 'error') {
+          showNotification({
+            message: response.message,
+            type: 'error',
+            position: 'top-right',
+          });
+          return
+        }
+
         setCookie(undefined, 'anotaai.token', response.response.accessToken, {
           maxAge: 60 * 60 * 12 * 1, // 1 hour
         });
@@ -47,6 +58,11 @@ export default function Login() {
       })
       .catch(err => {
         console.log(err)
+        showNotification({
+          message: err,
+          type: 'error',
+          position: 'top-right',
+        });
       })
 
   }
