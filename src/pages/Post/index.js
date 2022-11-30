@@ -54,7 +54,7 @@ export default function Post() {
         formData.append('hashtags', JSON.stringify(['hastagh1', 'hasshtag2']));
         images.forEach(img => formData.append('images', img));
 
-        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/post`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
@@ -85,7 +85,7 @@ export default function Post() {
     };
 
     const comment = async data => {
-        await fetch('https://anotaifsp.herokuapp.com/api/comment', {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/comment`, {
             // await fetch('http://localhost:3000/api/comment', {
             method: 'POST',
             headers: {
@@ -111,7 +111,7 @@ export default function Post() {
     useEffect(() => {
         let socket = null;
 
-        fetch(`https://anotaifsp.herokuapp.com/api/post/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/post/${id}`, {
             // fetch(`http://localhost:3000/api/post/${id}`, {
             method: 'GET',
             headers: {
@@ -125,7 +125,7 @@ export default function Post() {
                 setComments(response.response.post.comments);
             })
             .then(() => {
-                socket = io('https://anotaifsp.herokuapp.com');
+                socket = io(`${process.env.REACT_APP_API_URL}`);
                 // socket = io('http://localhost:3000');
                 console.log('Socket Aberto');
 
@@ -185,16 +185,19 @@ export default function Post() {
             method = 'DELETE';
         }
         // console.log(cookies['anotaai.token']);
-        let response = await fetch('https://anotaifsp.herokuapp.com/api/like', {
-            method: method,
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${cookies['anotaai.token']}`,
+        let response = await fetch(
+            `${process.env.REACT_APP_API_URL}/api/like`,
+            {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${cookies['anotaai.token']}`,
+                },
+                body: JSON.stringify({
+                    postId: id,
+                }),
             },
-            body: JSON.stringify({
-                postId: id,
-            }),
-        });
+        );
 
         console.log(response);
         console.log(post);
@@ -268,37 +271,30 @@ export default function Post() {
                         </button>
                         {showModal ? (
                             <Modal closeModal={closeModal}>
-                                
                                 <form
                                     onSubmit={handleSubmit(handleSubmitPosts)}
                                     className="justify-center text-center"
                                 >
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                    
                                         <button
                                             className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                             onClick={closeModal}
                                         >
                                             <span className="text-black opacity-50">
-                                                <img src={xClose}/>
+                                                <img src={xClose} />
                                             </span>
                                         </button>
-                                    
                                     </div>
 
                                     <div className="relative flex-auto p-5 border-b">
-                                        
                                         <textarea
                                             placeholder="  Escreva sua públicação..."
                                             {...register('content', {})}
                                             className="w-full h-64 m-0 md:h-32"
                                         />
-
                                     </div>
 
                                     <div className="flex items-center justify-between p-6 border-solid border-slate-200 rounded-b">
-                                        
-
                                         <div className="flex flex-row justify-center md:justify-start mt-5">
                                             <img
                                                 className="mr-5"
@@ -317,7 +313,7 @@ export default function Post() {
                                                 {images.length > 1
                                                     ? images.length + ' imagens'
                                                     : images.length +
-                                                    ' imagem'}{' '}
+                                                      ' imagem'}{' '}
                                             </span>
                                         </div>
 
@@ -329,7 +325,6 @@ export default function Post() {
                                         </button>
                                     </div>
                                 </form>
-
                             </Modal>
                         ) : null}
                     </div>
@@ -364,8 +359,6 @@ export default function Post() {
                             <LogoutIcon className="w-4 h-4 mr-2" />
                         </div>
                     </div>
-
-                    
                 </div>
 
                 {/* CENTRO - PUBLICAÇÕES E POSTS */}

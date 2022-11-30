@@ -27,7 +27,7 @@ export default function Register() {
     const signUp = async data => {
         console.log(data);
         if (data.password === data.confirmPassword) {
-            await fetch('https://anotaifsp.herokuapp.com/api/user', {
+            await fetch(`${process.env.REACT_APP_API_URL}/api/user`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -41,7 +41,8 @@ export default function Register() {
                 .then(data => {
                     if (data.status == 'ok') {
                         showNotification({
-                            message: "Foi enviado um email de confirmação para a sua conta",
+                            message:
+                                'Foi enviado um email de confirmação para a sua conta',
                             type: 'sucess',
                             position: 'top-right',
                         });

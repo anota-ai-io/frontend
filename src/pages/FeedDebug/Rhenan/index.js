@@ -50,7 +50,7 @@ export default function Feed() {
     useEffect(() => {
         const cookies = parseCookies();
         // console.log(cookies['anotaai.token'])
-        fetch('https://anotaifsp.herokuapp.com/api/debug/feed?amount=1000', {
+        fetch(`${rocess.env.REACT_APP_API_URL}/api/debug/feed?amount=1000`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ export default function Feed() {
             method = 'DELETE';
         }
         // console.log(cookies['anotaai.token']);
-        await fetch('https://anotaifsp.herokuapp.com/api/like', {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/like`, {
             method: method,
             headers: {
                 'Content-Type': 'application/json',

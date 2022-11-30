@@ -7,7 +7,7 @@ import React, {
     useRef,
 } from 'react';
 
-import "./style.css"
+import './style.css';
 
 // import async ComponentSkeleton from '../../components/Skeleton/index.js';
 import { parseCookies, destroyCookie } from 'nookies';
@@ -25,7 +25,7 @@ import Hearts from '../../assets/heart.svg';
 import HeartSelected from '../../assets/heart_selected.svg';
 import Share2 from '../../assets/share-2.svg';
 import xClose from '../../assets/x.svg';
-import moreHorizontal from '../../assets/more-horizontal.svg'
+import moreHorizontal from '../../assets/more-horizontal.svg';
 import { LogoutIcon } from '@heroicons/react/outline';
 
 import { Link, useNavigate } from 'react-router-dom';
@@ -40,8 +40,8 @@ export default function Feed() {
     const navigate = useNavigate();
     const UserContext = useContext(AuthContext);
 
-    const [showModal, setShowModal] = useState(false); 
-    const [showDeletePostModal, setShowDeletePostModal] = useState(false); 
+    const [showModal, setShowModal] = useState(false);
+    const [showDeletePostModal, setShowDeletePostModal] = useState(false);
 
     const [posts, setPosts] = useState([]);
     const [menuMobileState, setMenuMobileState] = useState(false);
@@ -61,7 +61,7 @@ export default function Feed() {
         formData.append('hashtags', JSON.stringify(['hastagh1', 'hasshtag2']));
         images.forEach(img => formData.append('images', img));
 
-        await fetch('https://anotaifsp.herokuapp.com/api/post', {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/post`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
@@ -80,7 +80,7 @@ export default function Feed() {
 
     const handleDeletePosts = async postId => {
         const cookies = parseCookies();
-        await fetch(`https://anotaifsp.herokuapp.com/api/post/${postId}`, {
+        await fetch(`${process.env.REACT_APP_API_URL}/api/post/${postId}`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${cookies['anotaai.token']}`,
@@ -88,15 +88,14 @@ export default function Feed() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                console.log(data);
                 setShowDeletePostModal(false);
                 setLoadPotsState(true);
             })
             .catch(err => {
                 console.log(err.message);
             });
-
-    }
+    };
 
     const hiddenFileInput = useRef(null);
 
@@ -114,8 +113,8 @@ export default function Feed() {
 
     useEffect(() => {
         const cookies = parseCookies();
-        console.log(loadPostsState)
-        fetch('https://anotaifsp.herokuapp.com/api/feed', {
+        console.log(loadPostsState);
+        fetch(`${process.env.REACT_APP_API_URL}/api/feed`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -158,7 +157,7 @@ export default function Feed() {
         }
         // console.log(cookies['anotaai.token']);
         const response = await fetch(
-            'https://anotaifsp.herokuapp.com/api/like',
+            `${process.env.REACT_APP_API_URL}/api/like`,
             {
                 method: method,
                 headers: {
@@ -199,9 +198,7 @@ export default function Feed() {
     function renderPublications() {
         return posts.map(post => (
             <div key={post.id} className="row-span-1 border grid grid-cols-12">
-                
                 <div className="ml-2 md:ml-0 col-span-2 row-span-6">
-                    
                     <div
                         className="flex items-center justify-center mt-3 md:mt-6 cursor-pointer"
                         onClick={() =>
@@ -217,7 +214,6 @@ export default function Feed() {
                             ></img>{' '}
                         </div>{' '}
                     </div>
-
                 </div>
 
                 <div
@@ -241,28 +237,45 @@ export default function Feed() {
                             {formatDate(post.createdAt)}
                         </span>
                     </div>
-                    
                 </div>
 
-                <div onClick={() => setShowDeletePostModal(true)} className='flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5'>
+                <div
+                    onClick={() => setShowDeletePostModal(true)}
+                    className="flex justify-self-start col-span-1 row-span-2 mt-5 md:mr-5"
+                >
                     <img src={moreHorizontal} />
                 </div>
 
                 {showDeletePostModal ? (
-                    <Modal closeModal={closeModal} >    
-                        <div className='flex flex-col border justify-evenly items-center h-96'>
-                            
+                    <Modal closeModal={closeModal}>
+                        <div className="flex flex-col border justify-evenly items-center h-96">
                             <div>
-                                <button className='bg-blue-500 p-2 w-64 h-12 text-white font-bold'>EDITAR</button>
+                                <button className="bg-blue-500 p-2 w-64 h-12 text-white font-bold">
+                                    EDITAR
+                                </button>
                             </div>
                             <div>
-                                <button className='bg-yellow-500 p-2 w-64 h-12 text-white font-bold'>DENUNCIAR</button>
+                                <button className="bg-yellow-500 p-2 w-64 h-12 text-white font-bold">
+                                    DENUNCIAR
+                                </button>
                             </div>
                             <div>
-                                <button onClick={() => handleDeletePosts(post.id)} className='bg-red-500 p-2 w-64 h-12 text-white font-bold'>EXCLUIR</button>
+                                <button
+                                    onClick={() => handleDeletePosts(post.id)}
+                                    className="bg-red-500 p-2 w-64 h-12 text-white font-bold"
+                                >
+                                    EXCLUIR
+                                </button>
                             </div>
                             <div>
-                                <button onClick={() => setShowDeletePostModal(false)} className='bg-green-500 p-2 w-64 h-12 text-white font-bold'>CANCELAR</button>
+                                <button
+                                    onClick={() =>
+                                        setShowDeletePostModal(false)
+                                    }
+                                    className="bg-green-500 p-2 w-64 h-12 text-white font-bold"
+                                >
+                                    CANCELAR
+                                </button>
                             </div>
                         </div>
                     </Modal>
@@ -298,7 +311,8 @@ export default function Feed() {
                     className="col-span-10 row-span-1"
                     onClick={() => navigate(`/post/${post.id}`)}
                 >
-                    <div className={ 
+                    <div
+                        className={
                             loadPostsState
                                 ? 'animate-pulse flex space-x-4'
                                 : 'flex items-center justify-center ml-2 mt-6 mr-6 mb-6'
@@ -307,10 +321,7 @@ export default function Feed() {
                         {loadPostsState ? (
                             <div className="h-96 w-full mr-8 bg-slate-200"></div>
                         ) : (
-                            <img
-                                className="mt-2 w-full"
-                                src={post.images[0]}
-                            />
+                            <img className="mt-2 w-full" src={post.images[0]} />
                         )}
                     </div>
                 </div>
@@ -350,7 +361,6 @@ export default function Feed() {
                         </span>
                     </div>
                 </div>
-
             </div>
         ));
     }
@@ -367,10 +377,7 @@ export default function Feed() {
                     }
                 >
                     <div className="flex flex-row ml-2 mt-2 justify-between md:ml-0 md:row-span-1 md:block md:p-14 lg:p-5">
-                        <img
-                            src={Logo}
-                            className="hidden md:block lg:block"
-                        />
+                        <img src={Logo} className="hidden md:block lg:block" />
                         <img
                             src={LogoIcon}
                             className="block md:hidden lg:hidden"
@@ -406,9 +413,7 @@ export default function Feed() {
                         </nav>
                     </div>
 
-
                     <div className="mt-5 p-2 md:p-6">
-                        
                         <button
                             className="bg-blue-700 text-white font-bold uppercase text-sm px-6 py-3 md:px-3 md:py-1  lg:px-6 lg:py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 animacao-padrao"
                             type="button"
@@ -418,38 +423,31 @@ export default function Feed() {
                         </button>
 
                         {showModal ? (
-                            <Modal closeModal={closeModal} >
-                                
+                            <Modal closeModal={closeModal}>
                                 <form
                                     onSubmit={handleSubmit(handleSubmitPosts)}
                                     className="justify-center text-center"
                                 >
                                     <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                       
                                         <button
                                             className="p-1 ml-auto border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                                             onClick={closeModal}
                                         >
                                             <span className="text-black opacity-50">
-                                                <img src={xClose}/>
+                                                <img src={xClose} />
                                             </span>
                                         </button>
-                                    
                                     </div>
 
                                     <div className="relative flex-auto p-5 border-b">
-                                        
                                         <textarea
                                             placeholder="  Escreva sua públicação..."
                                             {...register('content', {})}
                                             className="w-full h-64 m-0 md:h-32"
                                         />
-
                                     </div>
 
                                     <div className="flex flex-col md:flex-row items-center justify-between p-6 border-solid border-slate-200 rounded-b">
-                                        
-
                                         <div className="flex flex-row justify-center md:justify-start m-5">
                                             <img
                                                 className="mr-5"
@@ -480,7 +478,6 @@ export default function Feed() {
                                         </button>
                                     </div>
                                 </form>
-
                             </Modal>
                         ) : null}
                     </div>
@@ -515,8 +512,6 @@ export default function Feed() {
                             <LogoutIcon className="w-8 h-8 mr-2 md:w-4 md:h-4 md:mr-2" />
                         </div>
                     </div>
-
-                    
                 </div>
 
                 {/* CENTRO - PUBLICAÇÕES E POSTS */}
